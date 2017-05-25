@@ -3,27 +3,48 @@ import {
   AppRegistry,
   StyleSheet,
   Text,
-  View
+  View,
+  Image,
+  TextInput,
+  Button
 } from 'react-native';
+import TextBox from '../components/TextBox';
+import LoginButton from '../components/LoginButton';
+import { TextField } from 'react-native-material-textfield';
 
 export default class proffer extends Component {
-   static navigationOptions = {
-  header: null
+  static navigationOptions = {
+    header: null
   };
+
   render() {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
-          Welcome to React Native!
+          proffer
         </Text>
+        <View style={{
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+          <Image
+            style={{ width: 100, height: 100 }}
+            source={require('../images/handshake.png')}
+          />
+        </View>
+        <TextBox functionName='Username' />
+        <TextBox functionName='Password' />
+        <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center',alignItems: 'center',maxHeight:100
+                   }}>
+          <LoginButton />
+          <Button title="Register"
+            color="powderblue" />
+        </View>
         <Text style={styles.instructions}>
-          To get started, edit index.android.js
+          Register using NUS email{'\n'}
+          Proffer is an app for you to help others
         </Text>
-        <Text style={styles.instructions}>
-          Double tap R on your keyboard to reload,{'\n'}
-          Shake or press menu button for dev menu
-        </Text>
-      </View>
+      </View >
     );
   }
 }
@@ -32,13 +53,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: 'yellow',
   },
   welcome: {
-    fontSize: 20,
+    fontSize: 50,
     textAlign: 'center',
     margin: 10,
+    fontWeight: 'bold',
+    color: 'purple'
   },
   instructions: {
     textAlign: 'center',
