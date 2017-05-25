@@ -13,10 +13,12 @@ import {
 } from 'react-navigation';
 import loginscreen from './app/routes/loginscreen';
 import eventscreen from './app/routes/eventscreen';
+import registerscreen from './app/routes/registerscreen'
 
 const proffer = StackNavigator({
   /*Event: { screen: eventscreen },*/
   Login: { screen: loginscreen },
+  Register: {screen: registerscreen}
 });
 
 AppRegistry.registerComponent('proffer', () => proffer);

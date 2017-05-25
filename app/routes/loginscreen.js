@@ -11,8 +11,10 @@ import {
 import TextBox from '../components/TextBox';
 import LoginButton from '../components/LoginButton';
 import { TextField } from 'react-native-material-textfield';
+import { StackNavigator } from 'react-navigation';
 
-export default class proffer extends Component {
+
+export default class loginscreen extends Component {
   static navigationOptions = {
     header: null
   };
@@ -34,11 +36,14 @@ export default class proffer extends Component {
         </View>
         <TextBox functionName='Username' />
         <TextBox functionName='Password' />
-        <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center',alignItems: 'center',maxHeight:100
-                   }}>
+        <View style={{
+          flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', maxHeight: 100
+        }}>
           <LoginButton />
           <Button title="Register"
-            color="powderblue" />
+            color="powderblue"
+            onPress={() => this.props.navigation.navigate('Register')}
+          />
         </View>
         <Text style={styles.instructions}>
           Register using NUS email{'\n'}
