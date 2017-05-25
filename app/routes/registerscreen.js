@@ -23,7 +23,7 @@ export default class registerscreen extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <View style={{ justifyContent: 'center',alignItems: 'center' }}>
+                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                     <Image
                         style={{ width: 100, height: 100 }}
                         source={require('../images/handshake.png')}
@@ -34,13 +34,26 @@ export default class registerscreen extends Component {
                 <TextBox functionName='Username' />
                 <TextBox functionName='Password' />
 
+                <View style={{
+                    alignSelf: 'center', alignItems: 'center', maxWidth: 100,
+                }}>
+                    <Button
+                        title="Register"
+                        color='blue'
+                    />
 
-                <Button
-                    title="Register"
-                    color='blue'
-                />
-
-
+                </View>
+                <View style={{
+                    alignSelf: 'center', alignItems: 'center'
+                }}>
+                    <Text>
+                        {'\n'}
+                        An email will to be sent to NUS email for
+                    verficiation.{'\n'}{'\n'}
+                        By signing up, you automatically agree to the{'\n'}
+                        terms and conditions
+                </Text>
+                </View>
 
 
             </View >
