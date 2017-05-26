@@ -12,7 +12,7 @@ import {
   StackNavigator,
 } from 'react-navigation';
 import loginscreen from './app/routes/loginscreen';
-import eventscreen from './app/routes/eventscreen';
+import MainActivity from './app/routes/MainActivity';
 import registerscreen from './app/routes/registerscreen'
 
 const proffer = StackNavigator({

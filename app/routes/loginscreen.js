@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import TextBox from '../components/TextBox';
 import LoginButton from '../components/LoginButton';
+import UsernameBox from '../components/UsernameBox';
 import { TextField } from 'react-native-material-textfield';
 import { StackNavigator } from 'react-navigation';
 
@@ -34,7 +35,7 @@ export default class loginscreen extends Component {
             source={require('../images/handshake.png')}
           />
         </View>
-        <TextBox functionName='Username' />
+        <TextBox functionName='Username'/>
         <TextBox functionName='Password' />
         <View style={{
           flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', maxHeight: 100
@@ -65,7 +66,9 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     margin: 10,
     fontWeight: 'bold',
-    color: 'purple'
+    color: 'purple',
+    fontFamily: 'monospace',
+    textShadowOffset: {width: 4, height: 4}
   },
   instructions: {
     textAlign: 'center',

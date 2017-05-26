@@ -9,15 +9,17 @@ import {
     Button
 } from 'react-native';
 import TextBox from '../components/TextBox';
+import UsernameBox from '../components/UsernameBox';
 import { TextField } from 'react-native-material-textfield';
 import { StackNavigator } from 'react-navigation';
 
 export default class registerscreen extends Component {
     static navigationOptions = {
-        title: 'Registration'
-    };
-    static navigatorStyle = {
-        navBarBackgroundColor: 'blue'
+        title: 'Registration',
+        headerStyle: {
+            backgroundColor: '#95A5A6',
+            elevation: null,
+        },
     };
 
     render() {
@@ -31,7 +33,7 @@ export default class registerscreen extends Component {
                 </View>
                 <TextBox functionName='Name' />
                 <TextBox functionName='NUS Email address' />
-                <TextBox functionName='Username' />
+                <UsernameBox />
                 <TextBox functionName='Password' />
 
                 <View style={{
@@ -54,8 +56,6 @@ export default class registerscreen extends Component {
                         terms and conditions
                 </Text>
                 </View>
-
-
             </View >
         );
     }

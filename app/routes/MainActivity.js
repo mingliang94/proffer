@@ -7,7 +7,7 @@ import {
   ToolbarAndroid
 } from 'react-native';
 
-export default class proffer extends Component {
+export default class MainActivity extends Component {
   static navigationOptions = {
 
   };
