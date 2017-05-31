@@ -1,5 +1,7 @@
 import * as firebase from "firebase";
 
+/* Change the firebase account details*/
+
 export default class Firebase {
    static initialise() {
         if (!firebase.apps.length) {

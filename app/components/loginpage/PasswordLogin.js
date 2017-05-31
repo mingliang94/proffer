@@ -8,8 +8,9 @@ export default class PasswordLogin extends Component {
         this.state = { text: "" };
     }
 
-   textchange(){
-       this.props.changeTextFunc(this.state.text);
+   textchange(text){
+       this.setState({text:text})
+       this.props.changeTextFunc(text);
    }
 
     render() {
@@ -18,8 +19,7 @@ export default class PasswordLogin extends Component {
                 label='Password'
                 secureTextEntry={true}
                 value={this.state.text}
-                onChangeText={(text) => this.setState({ text })}
-                onSubmitEditing={() => this.textchange()}
+                onChangeText={(text) => this.textchange(text)}
             />
         );
 

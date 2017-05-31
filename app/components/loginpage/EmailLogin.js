@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { AppRegistry, TextInput } from 'react-native';
 import { TextField } from 'react-native-material-textfield';
 
-export default class UsernameLogin extends Component {
+export default class EmailLogin extends Component {
     constructor(props) {
         super(props);
         this.state = { text: "" };
@@ -16,7 +16,7 @@ export default class UsernameLogin extends Component {
     render() {
         return (
             <TextField
-                label='Username'
+                label='NUS Email'
                 value={this.state.text}
                 onChangeText={(text) => this.textchange(text)}
             />

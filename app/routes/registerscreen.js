@@ -20,10 +20,9 @@ export default class registerscreen extends Component {
         super(props);
         
         this.state = {
-            username: this.props.navigation.state.params.username,
+            email: this.props.navigation.state.params.email,
             password: this.props.navigation.state.params.password,
             name: "",
-            email: "",
         }
     }
 
@@ -72,11 +71,7 @@ export default class registerscreen extends Component {
                     value={this.state.email}
                     onChangeText={(text) => this.setState({ email: text })}
                 />
-                <TextField
-                    label='Username'
-                    value={this.state.username}
-                    onChangeText={(text) => this.setState({ username: text })}
-                />
+        
                 <TextField
                     label='Password'
                     secureTextEntry={true}

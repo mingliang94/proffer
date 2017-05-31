@@ -12,10 +12,10 @@ import {
 import TextBox from '../components/TextBox';
 import LoginButton from '../components/loginpage/LoginButton';
 import UsernameBox from '../components/UsernameBox';
-import UsernameLogin from '../components/loginpage/UsernameLogin'
+import EmailLogin from '../components/loginpage/EmailLogin'
 import PasswordLogin from '../components/loginpage/PasswordLogin'
 import { TextField } from 'react-native-material-textfield';
-import { StackNavigator } from 'react-navigation';
+import { StackNavigator, NavigationActions } from 'react-navigation';
 import * as firebase from "firebase";
 import Firebase from "../firebase/Firebase";
 
@@ -24,18 +24,43 @@ export default class loginscreen extends Component {
   constructor(props) {
     super(props);
     Firebase.initialise();
-    this.state = { username: "", password: "" };
+    this.state = { email: "", password: "" };
   }
   static navigationOptions = {
     header: null
   };
 
-  setUsername = (text) => {
-    this.setState({ username: text });
+  setEmail = (text) => {
+    this.setState({ email: text });
   }
 
   setPassword = (text) => {
     this.setState({ password: text })
+  }
+
+  reset() {
+    return this.props
+      .navigation
+      .dispatch(NavigationActions.reset(
+        {
+          index: 0,
+          actions: [
+            NavigationActions.navigate({ routeName: 'Event' })
+          ]
+        }));
+  }
+
+  async login() {
+
+    try {
+      await firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password);
+      this.reset()
+    } catch (error) {
+
+      alert(error.toString())
+
+    }
+
   }
 
   render() {
@@ -53,23 +78,22 @@ export default class loginscreen extends Component {
             source={require('../images/handshake.png')}
           />
         </View>
-        <UsernameLogin changeTextFunc={this.setUsername} />
+        <EmailLogin changeTextFunc={this.setEmail} />
         <PasswordLogin changeTextFunc={this.setPassword} />
 
-        <LoginButton
+        <Button
           title="Login"
           color="blue"
-          username={this.state.username}
-          password={this.state.password}
+          onPress={() => this.login()}
         />
-        <View style={{alignItems:'center'}}>
-        <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('Register',{username:this.state.username,password:this.state.password })}>
-          <View style={styles.signup}>
-            <Text style={{ alignItems: 'center',textDecorationLine: 'underline', fontSize:20 }}>
-              Sign up
+        <View style={{ alignItems: 'center' }}>
+          <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('Register', { email: this.state.email, password: this.state.password })}>
+            <View style={styles.signup}>
+              <Text style={{ alignItems: 'center', textDecorationLine: 'underline', fontSize: 20 }}>
+                Sign up
               </Text>
-          </View>
-        </TouchableWithoutFeedback>
+            </View>
+          </TouchableWithoutFeedback>
         </View>
 
         <Text style={styles.instructions}>
@@ -100,14 +124,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     maxHeight: 50,
-    marginTop:10,
-    marginBottom:10,
+    marginTop: 10,
+    marginBottom: 10,
   },
   instructions: {
     textAlign: 'center',
     color: '#333333',
     marginBottom: 5,
-    marginTop:20,
+    marginTop: 20,
   },
 });
 
