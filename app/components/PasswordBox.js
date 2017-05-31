@@ -2,15 +2,11 @@ import React, { Component } from 'react';
 import { AppRegistry, TextInput } from 'react-native';
 import { TextField } from 'react-native-material-textfield';
 
-export default class PasswordLogin extends Component {
+export default class UsernameBox extends Component {
     constructor(props) {
         super(props);
-        this.state = { text: "" };
+        this.state = { text: this.props.value };
     }
-
-   textchange(){
-       this.props.changeTextFunc(this.state.text);
-   }
 
     render() {
         return (
@@ -19,9 +15,8 @@ export default class PasswordLogin extends Component {
                 secureTextEntry={true}
                 value={this.state.text}
                 onChangeText={(text) => this.setState({ text })}
-                onSubmitEditing={() => this.textchange()}
             />
         );
-
     }
 }
+

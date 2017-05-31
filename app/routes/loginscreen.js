@@ -6,7 +6,8 @@ import {
   View,
   Image,
   TextInput,
-  Button
+  Button,
+  TouchableWithoutFeedback
 } from 'react-native';
 import TextBox from '../components/TextBox';
 import LoginButton from '../components/loginpage/LoginButton';
@@ -20,18 +21,18 @@ export default class loginscreen extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { username:"", password:"" };
+    this.state = { username: "", password: "" };
   }
   static navigationOptions = {
     header: null
   };
 
   setUsername = (text) => {
-    this.setState({username:text});
+    this.setState({ username: text });
   }
 
   setPassword = (text) => {
-    this.setState({password: text})
+    this.setState({ password: text })
   }
 
   render() {
@@ -51,20 +52,23 @@ export default class loginscreen extends Component {
         </View>
         <UsernameLogin changeTextFunc={this.setUsername} />
         <PasswordLogin changeTextFunc={this.setPassword} />
-        <View style={{
-          flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', maxHeight: 100
-        }}>
-          <LoginButton
-            title="Login"
-            color="blue"
-            username={this.state.username}
-            password={this.state.password}
-          />
-          <Button title="Register"
-            color="powderblue"
-            onPress={() => this.props.navigation.navigate('Register')}
-          />
+
+        <LoginButton
+          title="Login"
+          color="blue"
+          username={this.state.username}
+          password={this.state.password}
+        />
+        <View style={{alignItems:'center'}}>
+        <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('Register',{username:this.state.username,password:this.state.password })}>
+          <View style={styles.signup}>
+            <Text style={{ alignItems: 'center',textDecorationLine: 'underline', fontSize:20 }}>
+              Sign up
+              </Text>
+          </View>
+        </TouchableWithoutFeedback>
         </View>
+
         <Text style={styles.instructions}>
           Register using NUS email{'\n'}
           Proffer is an app for you to help others
@@ -89,10 +93,18 @@ const styles = StyleSheet.create({
     fontFamily: 'monospace',
     textShadowOffset: { width: 4, height: 4 }
   },
+  signup: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    maxHeight: 50,
+    marginTop:10,
+    marginBottom:10,
+  },
   instructions: {
     textAlign: 'center',
     color: '#333333',
     marginBottom: 5,
+    marginTop:20,
   },
 });
 

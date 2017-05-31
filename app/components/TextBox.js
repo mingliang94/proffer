@@ -5,7 +5,7 @@ import { TextField } from 'react-native-material-textfield';
 export default class TextBox extends Component {
     constructor(props) {
         super(props);
-        this.state = { text: "" };
+        this.state = { text: props.value };
     }
 
     render() {

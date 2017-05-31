@@ -5,7 +5,7 @@ import { TextField } from 'react-native-material-textfield';
 export default class UsernameBox extends Component {
     constructor(props) {
         super(props);
-        this.state = { text: "", status: false };
+        this.state = { text: this.props.value, status: false };
     }
 
     changetext(text) {

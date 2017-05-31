@@ -10,10 +10,21 @@ import {
 } from 'react-native';
 import TextBox from '../components/TextBox';
 import UsernameBox from '../components/UsernameBox';
+import PasswordBox from '../components/PasswordBox'
 import { TextField } from 'react-native-material-textfield';
 import { StackNavigator } from 'react-navigation';
 
 export default class registerscreen extends Component {
+    constructor(props){
+        super(props);
+        this.state={
+            username: this.props.navigation.state.params.username,
+            password:this.props.navigation.state.params.password,
+            name:"",
+            email:"",
+        }
+    }
+
     static navigationOptions = {
         title: 'Registration',
         headerStyle: {
@@ -21,6 +32,8 @@ export default class registerscreen extends Component {
             elevation: null,
         },
     };
+
+
 
     render() {
         return (
@@ -31,10 +44,10 @@ export default class registerscreen extends Component {
                         source={require('../images/handshake.png')}
                     />
                 </View>
-                <TextBox functionName='Name' />
+                <TextBox functionName='Name'  />
                 <TextBox functionName='NUS Email address' />
-                <UsernameBox />
-                <TextBox functionName='Password' />
+                <UsernameBox value={this.state.username}/>
+                <PasswordBox value= {this.state.password}/>
 
                 <View style={{
                     alignSelf: 'center', alignItems: 'center', maxWidth: 100,
