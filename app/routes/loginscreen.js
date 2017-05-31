@@ -11,7 +11,6 @@ import {
 } from 'react-native';
 import TextBox from '../components/TextBox';
 import LoginButton from '../components/loginpage/LoginButton';
-import UsernameBox from '../components/UsernameBox';
 import EmailLogin from '../components/loginpage/EmailLogin'
 import PasswordLogin from '../components/loginpage/PasswordLogin'
 import { TextField } from 'react-native-material-textfield';
@@ -25,6 +24,7 @@ export default class loginscreen extends Component {
     super(props);
     Firebase.initialise();
     this.state = { email: "", password: "" };
+    this.login=this.login.bind(this);
   }
   static navigationOptions = {
     header: null
@@ -78,7 +78,7 @@ export default class loginscreen extends Component {
           />
         </View>
         <EmailLogin changeTextFunc={this.setEmail} />
-        <PasswordLogin changeTextFunc={this.setPassword} />
+        <PasswordLogin changeTextFunc={this.setPassword} onChang={this.login} />
 
         <Button
           title="Login"

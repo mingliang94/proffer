@@ -4,21 +4,48 @@ import {
   StyleSheet,
   Text,
   View,
-  ToolbarAndroid
+  ToolbarAndroid,
+  Button
 } from 'react-native';
+import { StackNavigator, NavigationActions } from 'react-navigation';
 
 export default class MainActivity extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { name: "" };
+  }
+
+  
+
+  _logout() {
+    return this.props
+      .navigation
+      .dispatch(NavigationActions.reset(
+        {
+          index: 0,
+          actions: [
+            NavigationActions.navigate({ routeName: 'Login' })
+          ]
+        }));
+  }
+
+
   static navigationOptions = {
     title: 'Proffer',
-        headerStyle: {
-            backgroundColor: '#95A5A6',
-            elevation: null,
-        },
+    headerStyle: {
+      backgroundColor: '#95A5A6',
+      elevation: null,
+    },
+    headerRight:
+    <Button
+      title='logout'
+      onPress={() => this._logout()}
+    />
   };
 
   render() {
     return (
-   
+
       <View style={styles.container}>
         <Text style={styles.welcome}>
           Welcome to React Native!

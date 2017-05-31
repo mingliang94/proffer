@@ -10,7 +10,6 @@ import {
     Alert
 } from 'react-native';
 import TextBox from '../components/TextBox';
-import UsernameBox from '../components/UsernameBox';
 import { TextField } from 'react-native-material-textfield';
 import { StackNavigator } from 'react-navigation';
 import * as firebase from "firebase";

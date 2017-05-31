@@ -20,8 +20,8 @@ export default class PasswordLogin extends Component {
                 secureTextEntry={true}
                 value={this.state.text}
                 onChangeText={(text) => this.textchange(text)}
+                onSubmitEditing={()=>this.props.onChang()}
             />
         );
-
     }
 }
