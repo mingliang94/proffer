@@ -6,22 +6,24 @@ import {
     View,
     Image,
     TextInput,
-    Button
+    Button,
+    Alert
 } from 'react-native';
 import TextBox from '../components/TextBox';
 import UsernameBox from '../components/UsernameBox';
-import PasswordBox from '../components/PasswordBox'
 import { TextField } from 'react-native-material-textfield';
 import { StackNavigator } from 'react-navigation';
+import * as firebase from "firebase";
 
 export default class registerscreen extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
-        this.state={
+        
+        this.state = {
             username: this.props.navigation.state.params.username,
-            password:this.props.navigation.state.params.password,
-            name:"",
-            email:"",
+            password: this.props.navigation.state.params.password,
+            name: "",
+            email: "",
         }
     }
 
@@ -33,6 +35,22 @@ export default class registerscreen extends Component {
         },
     };
 
+    async signup(email, pass) {
+
+        try {
+            await firebase.auth().createUserWithEmailAndPassword(email, pass);
+            firebase.auth().currentUser.sendEmailVerification();
+            
+            Alert.alert("Proffer","Verification email sent! \n Please check your email. ",
+            [{text:"ok", onPress:()=>this.props.navigation.goBack()}]
+            );
+
+
+        } catch (error) {
+            alert(error.toString())
+        }
+
+    }
 
 
     render() {
@@ -44,17 +62,34 @@ export default class registerscreen extends Component {
                         source={require('../images/handshake.png')}
                     />
                 </View>
-                <TextBox functionName='Name'  />
-                <TextBox functionName='NUS Email address' />
-                <UsernameBox value={this.state.username}/>
-                <PasswordBox value= {this.state.password}/>
-
+                <TextField
+                    label='Name'
+                    value={this.state.name}
+                    onChangeText={(text) => this.setState({ name: text })}
+                />
+                <TextField
+                    label='NUS Email address'
+                    value={this.state.email}
+                    onChangeText={(text) => this.setState({ email: text })}
+                />
+                <TextField
+                    label='Username'
+                    value={this.state.username}
+                    onChangeText={(text) => this.setState({ username: text })}
+                />
+                <TextField
+                    label='Password'
+                    secureTextEntry={true}
+                    value={this.state.password}
+                    onChangeText={(text) => this.setState({ password: text })}
+                />
                 <View style={{
                     alignSelf: 'center', alignItems: 'center', maxWidth: 100,
                 }}>
                     <Button
                         title="Register"
                         color='blue'
+                        onPress={() => this.signup(this.state.email,this.state.password)}
                     />
 
                 </View>

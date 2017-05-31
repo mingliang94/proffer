@@ -16,11 +16,14 @@ import UsernameLogin from '../components/loginpage/UsernameLogin'
 import PasswordLogin from '../components/loginpage/PasswordLogin'
 import { TextField } from 'react-native-material-textfield';
 import { StackNavigator } from 'react-navigation';
+import * as firebase from "firebase";
+import Firebase from "../firebase/Firebase";
 
 export default class loginscreen extends Component {
 
   constructor(props) {
     super(props);
+    Firebase.initialise();
     this.state = { username: "", password: "" };
   }
   static navigationOptions = {

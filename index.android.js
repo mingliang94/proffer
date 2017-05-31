@@ -21,4 +21,5 @@ const proffer = StackNavigator({
   Register: {screen: registerscreen}
 });
 
+
 AppRegistry.registerComponent('proffer', () => proffer);

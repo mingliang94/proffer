@@ -8,8 +8,9 @@ export default class UsernameLogin extends Component {
         this.state = { text: "" };
     }
 
-   textchange(){
-       this.props.changeTextFunc(this.state.text);
+   textchange(text){
+       this.setState({text:text});
+       this.props.changeTextFunc(text);
    }
 
     render() {
@@ -17,8 +18,7 @@ export default class UsernameLogin extends Component {
             <TextField
                 label='Username'
                 value={this.state.text}
-                onChangeText={(text) => this.setState({ text })}
-                onSubmitEditing={() => this.textchange()}
+                onChangeText={(text) => this.textchange(text)}
             />
         );
 
