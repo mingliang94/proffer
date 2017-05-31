@@ -9,16 +9,30 @@ import {
   Button
 } from 'react-native';
 import TextBox from '../components/TextBox';
-import LoginButton from '../components/LoginButton';
+import LoginButton from '../components/loginpage/LoginButton';
 import UsernameBox from '../components/UsernameBox';
+import UsernameLogin from '../components/loginpage/UsernameLogin'
+import PasswordLogin from '../components/loginpage/PasswordLogin'
 import { TextField } from 'react-native-material-textfield';
 import { StackNavigator } from 'react-navigation';
 
-
 export default class loginscreen extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = { username:"", password:"" };
+  }
   static navigationOptions = {
     header: null
   };
+
+  setUsername = (text) => {
+    this.setState({username:text});
+  }
+
+  setPassword = (text) => {
+    this.setState({password: text})
+  }
 
   render() {
     return (
@@ -35,12 +49,17 @@ export default class loginscreen extends Component {
             source={require('../images/handshake.png')}
           />
         </View>
-        <TextBox functionName='Username'/>
-        <TextBox functionName='Password' />
+        <UsernameLogin changeTextFunc={this.setUsername} />
+        <PasswordLogin changeTextFunc={this.setPassword} />
         <View style={{
           flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', maxHeight: 100
         }}>
-          <LoginButton />
+          <LoginButton
+            title="Login"
+            color="blue"
+            username={this.state.username}
+            password={this.state.password}
+          />
           <Button title="Register"
             color="powderblue"
             onPress={() => this.props.navigation.navigate('Register')}
@@ -68,7 +87,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'purple',
     fontFamily: 'monospace',
-    textShadowOffset: {width: 4, height: 4}
+    textShadowOffset: { width: 4, height: 4 }
   },
   instructions: {
     textAlign: 'center',

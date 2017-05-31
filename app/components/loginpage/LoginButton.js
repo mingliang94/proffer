@@ -19,7 +19,6 @@ export default class LoginButton extends Component {
             <Button
                 title="Login"
                 color="blue"
-                
             />
         );
 
