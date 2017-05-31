@@ -51,7 +51,6 @@ export default class loginscreen extends Component {
   }
 
   async login() {
-
     try {
       await firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password);
       this.reset()

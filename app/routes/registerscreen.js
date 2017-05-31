@@ -35,7 +35,11 @@ export default class registerscreen extends Component {
     };
 
     async signup(email, pass) {
-
+        //Remove false to allow NUS email only
+        if(email.search("@u.nus.edu")==-1 && false){
+            Alert.alert("Proffer","Please enter a valid nus email.");
+            this.setState({email:""});
+        } else {
         try {
             await firebase.auth().createUserWithEmailAndPassword(email, pass);
             firebase.auth().currentUser.sendEmailVerification();
@@ -47,6 +51,7 @@ export default class registerscreen extends Component {
 
         } catch (error) {
             alert(error.toString())
+        }
         }
 
     }

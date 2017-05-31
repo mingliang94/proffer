@@ -9,7 +9,11 @@ import {
 
 export default class MainActivity extends Component {
   static navigationOptions = {
-
+    title: 'Proffer',
+        headerStyle: {
+            backgroundColor: '#95A5A6',
+            elevation: null,
+        },
   };
 
   render() {
