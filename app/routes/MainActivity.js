@@ -5,7 +5,8 @@ import {
   Text,
   View,
   ToolbarAndroid,
-  Button
+  Button,
+  TouchableWithoutFeedback
 } from 'react-native';
 import { StackNavigator, NavigationActions } from 'react-navigation';
 
@@ -47,9 +48,11 @@ export default class MainActivity extends Component {
     return (
 
       <View style={styles.container}>
-        <Text style={styles.welcome}>
+        <TouchableWithoutFeedback onPress={() => this._logout()}>
+        <Text style={styles.welcome} >
           Welcome to React Native!
         </Text>
+          </TouchableWithoutFeedback>
         <Text style={styles.instructions}>
           To get started, edit index.android.js
         </Text>

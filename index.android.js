@@ -16,10 +16,9 @@ import MainActivity from './app/routes/MainActivity';
 import registerscreen from './app/routes/registerscreen'
 
 const proffer = StackNavigator({
-  Event: { screen: MainActivity },
   Login: { screen: loginscreen },
   Register: {screen: registerscreen},
-  
+  Event: { screen: MainActivity },
 });
 
 

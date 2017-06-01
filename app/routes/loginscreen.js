@@ -7,12 +7,11 @@ import {
   Image,
   TextInput,
   Button,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  AsyncStorage
 } from 'react-native';
 import TextBox from '../components/TextBox';
 import LoginButton from '../components/loginpage/LoginButton';
-import EmailLogin from '../components/loginpage/EmailLogin'
-import PasswordLogin from '../components/loginpage/PasswordLogin'
 import { TextField } from 'react-native-material-textfield';
 import { StackNavigator, NavigationActions } from 'react-navigation';
 import * as firebase from "firebase";
@@ -24,21 +23,24 @@ export default class loginscreen extends Component {
     super(props);
     Firebase.initialise();
     this.state = { email: "", password: "" };
-    this.login=this.login.bind(this);
+    this.login = this.login.bind(this);
   }
+
+//Load for existing email and password
+  componentDidMount = () => {
+    AsyncStorage.getItem('email').then((value) => {
+      this.setState({ email: value });
+    });
+     AsyncStorage.getItem('password').then((value) => {
+      this.setState({ password: value });
+    });
+  }
+
   static navigationOptions = {
     header: null
   };
 
-  setEmail = (text) => {
-    this.setState({ email: text });
-  }
-
-  setPassword = (text) => {
-    this.setState({ password: text })
-  }
-
-  reset() {
+  loginMain() {
     return this.props
       .navigation
       .dispatch(NavigationActions.reset(
@@ -53,7 +55,10 @@ export default class loginscreen extends Component {
   async login() {
     try {
       await firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password);
-      this.reset()
+      //Stores Email and password upon successful login 
+      AsyncStorage.setItem('email', this.state.email);  
+      AsyncStorage.setItem('password',this.state.password);
+      this.loginMain()
     } catch (error) {
 
       alert(error.toString())
@@ -77,9 +82,18 @@ export default class loginscreen extends Component {
             source={require('../images/handshake.png')}
           />
         </View>
-        <EmailLogin changeTextFunc={this.setEmail} />
-        <PasswordLogin changeTextFunc={this.setPassword} onChang={this.login} />
-
+        <TextField
+                label='NUS Email'
+                value={this.state.email}
+                onChangeText={(text) => this.setState({email: text})}
+            />
+        <TextField
+                label='Password'
+                secureTextEntry={true}
+                value={this.state.password}
+                onChangeText={(text) => this.setState({password: text})}
+                onSubmitEditing={()=>this.login()}
+            />
         <Button
           title="Login"
           color="blue"
