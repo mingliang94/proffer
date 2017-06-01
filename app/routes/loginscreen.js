@@ -40,6 +40,7 @@ export default class loginscreen extends Component {
     header: null
   };
 
+// Login function
   loginMain() {
     return this.props
       .navigation
