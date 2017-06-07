@@ -14,18 +14,58 @@ import { StackNavigator, NavigationActions } from 'react-navigation';
 import * as firebase from "firebase";
 import Firebase from "../firebase/Firebase";
 import Spinner from 'react-native-loading-spinner-overlay';
+import EventList from '../components/EventList/EventList';
 
 
 export default class MainActivity extends Component {
   constructor(props) {
     super(props);
+    let d1 = new Date();
     this.state = {
       isLoading: true,
       name: "",
-      data: [
-        { key: 'a' },
-        { key: 'b' }
-      ]
+      data: [{
+        key: '1',
+        title: 'dog',
+        date: d1,
+        desc: "sadfjakfhkdafadfhkadsfhkadsfhkdhfkahfkjadshfkhfkhdksfdas",
+        eventId: "jdhcf9q23hfuihenf"
+      },
+      {
+        key: '2',
+        title: 'asds',
+        date: d1,
+        desc: "Lots of words and lots of words and lots of words and lots of words and lots of words and lots of words and lots of words and",
+        eventId: "nc2nr0i3rjl23dfsp",
+      },
+      {
+        key: '3',
+        title: 'Nice Event!',
+        date: d1,
+        desc: "No description",
+        eventId: "91ic09n2i13ei2ji2",
+      },
+      {
+        key: '4',
+        title: 'Free Money!',
+        date: d1,
+        desc: "No description",
+        eventId: "01c309rej1c923irj",
+      },
+      {
+        key: '5',
+        title: 'A very loooooooooooooooooooooooooooooooooooooooooooooooooooooong title',
+        date: d1,
+        desc: "No description",
+        eventId: "021ixz0912keo2je3",
+      },
+      {
+        key: '6',
+        title: 'A',
+        date: d1,
+        desc: "Test\nTest\nTest\nTest",
+        eventId: "dikt9054ijkriowj5",
+      }]
     };
     this._loading = this._loading.bind(this);
     this._loading();
@@ -87,13 +127,7 @@ export default class MainActivity extends Component {
   );
 
   _renderContent = () => ( 
-      <View style={styles.content}>
-        <Text style={styles.welcome}> Welcome {this.state.name}</Text>
-        <FlatList
-          data={this.state.data}
-          renderItem={({ item }) => this._renderItem(item)}
-        />
-      </View>
+      <EventList data={this.state.data} onPress={null} />
   );
 
   render() {
