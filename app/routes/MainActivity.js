@@ -7,29 +7,40 @@ import {
   ToolbarAndroid,
   Button,
   TouchableWithoutFeedback,
-  FlatList
+  FlatList,
+  Animated
 } from 'react-native';
 import { StackNavigator, NavigationActions } from 'react-navigation';
 import * as firebase from "firebase";
 import Firebase from "../firebase/Firebase";
+import Spinner from 'react-native-loading-spinner-overlay';
 
 
 export default class MainActivity extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isLoading: true,
       name: "",
       data: [
         { key: 'a' },
         { key: 'b' }
       ]
     };
+    this._loading = this._loading.bind(this);
+    this._loading();
+  }
+
+
+  async _loading() {
     let userPath = "/users/" + firebase.auth().currentUser.uid + "/info";
-    firebase.database().ref(userPath).once('value').then(
+    await firebase.database().ref(userPath).once('value').then(
       (userData) => {
         this.setState({ name: userData.val().name });
       });
+    this.setState({ isLoading: false })
   }
+
 
   static navigationOptions = {
     header: null
@@ -69,8 +80,24 @@ export default class MainActivity extends Component {
     );
   };
 
+  _renderLoad = () => (
+     <View style={{ flex: 1 }}>
+        <Spinner visible={true} textContent={"Loading..."} textStyle={{color: '#FFF'}} />
+      </View>
+  );
+
+  _renderContent = () => ( 
+      <View style={styles.content}>
+        <Text style={styles.welcome}> Welcome {this.state.name}</Text>
+        <FlatList
+          data={this.state.data}
+          renderItem={({ item }) => this._renderItem(item)}
+        />
+      </View>
+  );
 
   render() {
+    let content = this.state.isLoading ? this._renderLoad() : this._renderContent();
     return (
       <View style={styles.container}>
         <ToolbarAndroid
@@ -82,22 +109,15 @@ export default class MainActivity extends Component {
           actions={toolbarActions}
           onActionSelected={this._onActionSelected}
         />
-        <View style={styles.content}>
-          <Text> Welcome {this.state.name}</Text>
-          <FlatList
-            data={this.state.data}
-            renderItem={({ item }) => this._renderItem(item)}
-          />
-        </View>
+        {content}
       </View>
     );
   }
 }
 
-
 var toolbarActions = [
-  { title: 'Edit profile', show: 'hide' },
-  { title: 'Logout', show: 'hide' },
+  { title: 'Edit profile', show: 'never' },
+  { title: 'Logout', show: 'never' },
 
 ];
 
