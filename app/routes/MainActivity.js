@@ -6,7 +6,8 @@ import {
   View,
   ToolbarAndroid,
   Button,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  FlatList
 } from 'react-native';
 import { StackNavigator, NavigationActions } from 'react-navigation';
 
@@ -14,9 +15,20 @@ import { StackNavigator, NavigationActions } from 'react-navigation';
 export default class MainActivity extends Component {
   constructor(props) {
     super(props);
-    this.state = { name: "" };
+    this.state = {
+      name: "",
+      data: [
+        { key: 'a' },
+        { key: 'b' }
+      ]
+    };
   }
 
+
+  static navigationOptions = {
+    header: null
+
+  };
 
 
   _logout = () => {
@@ -31,10 +43,25 @@ export default class MainActivity extends Component {
         }));
   }
 
+  _onActionSelected = (position) => {
+    switch (position) {
+      case 0:
+        alert("Function not developed!");
+        break;
+      case 1:
+        this._logout();
+        break;
+      default:
+        break;
+    }
+  };
 
-  static navigationOptions = {
-    header: null
-
+  _renderItem(item) {
+    return (
+      <View style={styles.content}>
+        <Text>{item.key}</Text>
+      </View>
+    );
   };
 
 
@@ -51,43 +78,24 @@ export default class MainActivity extends Component {
           onActionSelected={this._onActionSelected}
         />
         <View style={styles.content}>
-          <Text style={styles.welcome} >
-            Welcome to React Native!
-        </Text>
-          <Text style={styles.instructions}>
-            To get started, edit index.android.js
-        </Text>
-          <Text style={styles.instructions}>
-            Double tap R on your keyboard to reload,{'\n'}
-            Shake or press menu button for dev menu
-        </Text>
+          <FlatList
+            data={this.state.data}
+            renderItem={({ item }) => this._renderItem(item)}
+          />
         </View>
       </View>
     );
   }
-
-  _onActionSelected = (position) => {
-    switch (position) {
-      case 0:
-        alert("Function not develop");
-        break;
-      case 1:
-        this._logout();
-        break;
-      default:
-        break;
-    }
-  };
-
 }
 
- var toolbarActions = [
+
+var toolbarActions = [
   { title: 'Edit profile', show: 'hide' },
   { title: 'Logout', show: 'hide' },
 
 ];
 
-  
+
 
 
 const styles = StyleSheet.create({
