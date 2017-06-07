@@ -10,16 +10,17 @@ import {
 } from 'react-native';
 import { StackNavigator, NavigationActions } from 'react-navigation';
 
+
 export default class MainActivity extends Component {
   constructor(props) {
     super(props);
     this.state = { name: "" };
   }
 
-  
 
-  _logout() {
-    return this.props
+
+  _logout = () => {
+    this.props
       .navigation
       .dispatch(NavigationActions.reset(
         {
@@ -32,45 +33,74 @@ export default class MainActivity extends Component {
 
 
   static navigationOptions = {
-    title: 'Proffer',
-    headerStyle: {
-      backgroundColor: '#95A5A6',
-      elevation: null,
-    },
-    headerRight:
-    <Button
-      title='logout'
-      onPress={() => this._logout()}
-    />
+    header: null
+
   };
+
 
   render() {
     return (
-
       <View style={styles.container}>
-        <TouchableWithoutFeedback onPress={() => this._logout()}>
-        <Text style={styles.welcome} >
-          Welcome to React Native!
+        <ToolbarAndroid
+          style={{
+            backgroundColor: '#F8C471',
+            height: 56,
+          }}
+          title="Proffer"
+          actions={toolbarActions}
+          onActionSelected={this._onActionSelected}
+        />
+        <View style={styles.content}>
+          <Text style={styles.welcome} >
+            Welcome to React Native!
         </Text>
-          </TouchableWithoutFeedback>
-        <Text style={styles.instructions}>
-          To get started, edit index.android.js
+          <Text style={styles.instructions}>
+            To get started, edit index.android.js
         </Text>
-        <Text style={styles.instructions}>
-          Double tap R on your keyboard to reload,{'\n'}
-          Shake or press menu button for dev menu
+          <Text style={styles.instructions}>
+            Double tap R on your keyboard to reload,{'\n'}
+            Shake or press menu button for dev menu
         </Text>
+        </View>
       </View>
     );
   }
+
+  _onActionSelected = (position) => {
+    switch (position) {
+      case 0:
+        alert("Function not develop");
+        break;
+      case 1:
+        this._logout();
+        break;
+      default:
+        break;
+    }
+  };
+
 }
+
+ var toolbarActions = [
+  { title: 'Edit profile', show: 'hide' },
+  { title: 'Logout', show: 'hide' },
+
+];
+
+  
+
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: 'space-between',
+    alignItems: 'stretch',
+    backgroundColor: 'yellow',
+  },
+  content: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'yellow',
   },
   welcome: {
     fontSize: 20,
