@@ -34,22 +34,23 @@ export default class registerscreen extends Component {
 
     async signup(email, pass) {
         //Remove false to allow NUS email only
-        if(email.search("@u.nus.edu")==-1 && false){
-            Alert.alert("Proffer","Please enter a valid nus email.");
-            this.setState({email:""});
+        if (email.search("@u.nus.edu") == -1 && false) {
+            Alert.alert("Proffer", "Please enter a valid nus email.");
+            this.setState({ email: "" });
         } else {
-        try {
-            await firebase.auth().createUserWithEmailAndPassword(email, pass);
-            firebase.auth().currentUser.sendEmailVerification();
-            
-            Alert.alert("Proffer","Verification email sent! \n Please check your email. ",
-            [{text:"ok", onPress:()=>this.props.navigation.goBack()}]
-            );
+            try {
+                await firebase.auth().createUserWithEmailAndPassword(email, pass);
+                firebase.auth().currentUser.sendEmailVerification();
+                let userPath = "/users/" + firebase.auth().currentUser.uid + "/info";
+                firebase.database().ref(userPath).set({ name: this.state.name });
+                Alert.alert("Proffer", "Verification email sent! \nPlease check your email. ",
+                    [{ text: "ok", onPress: () => this.props.navigation.goBack() }]
+                );
 
 
-        } catch (error) {
-            alert(error.toString())
-        }
+            } catch (error) {
+                alert(error.toString())
+            }
         }
 
     }
@@ -74,7 +75,7 @@ export default class registerscreen extends Component {
                     value={this.state.email}
                     onChangeText={(text) => this.setState({ email: text })}
                 />
-        
+
                 <TextField
                     label='Password'
                     secureTextEntry={true}
@@ -87,7 +88,7 @@ export default class registerscreen extends Component {
                     <Button
                         title="Register"
                         color='blue'
-                        onPress={() => this.signup(this.state.email,this.state.password)}
+                        onPress={() => this.signup(this.state.email, this.state.password)}
                     />
 
                 </View>

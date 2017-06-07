@@ -8,7 +8,8 @@ import {
   TextInput,
   Button,
   TouchableWithoutFeedback,
-  AsyncStorage
+  AsyncStorage,
+  Alert
 } from 'react-native';
 import TextBox from '../components/TextBox';
 import LoginButton from '../components/loginpage/LoginButton';
@@ -26,12 +27,12 @@ export default class loginscreen extends Component {
     this.login = this.login.bind(this);
   }
 
-//Load for existing email and password
+  //Load for existing email and password
   componentDidMount = () => {
     AsyncStorage.getItem('email').then((value) => {
       this.setState({ email: value });
     });
-     AsyncStorage.getItem('password').then((value) => {
+    AsyncStorage.getItem('password').then((value) => {
       this.setState({ password: value });
     });
   }
@@ -40,7 +41,7 @@ export default class loginscreen extends Component {
     header: null
   };
 
-// Login function
+  // Login function
   loginMain() {
     return this.props
       .navigation
@@ -57,13 +58,17 @@ export default class loginscreen extends Component {
     try {
       await firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password);
       //Stores Email and password upon successful login 
-      AsyncStorage.setItem('email', this.state.email);  
-      AsyncStorage.setItem('password',this.state.password);
-      this.loginMain()
+      AsyncStorage.setItem('email', this.state.email);
+      AsyncStorage.setItem('password', this.state.password);
+
+      if (firebase.auth().currentUser.emailVerified) {
+        this.loginMain()
+      }
+      else {
+        Alert.alert("Proffer", "Email not verified \nKindly verify your NUS email.")
+      }
     } catch (error) {
-
       alert(error.toString())
-
     }
 
   }
@@ -84,17 +89,17 @@ export default class loginscreen extends Component {
           />
         </View>
         <TextField
-                label='NUS Email'
-                value={this.state.email}
-                onChangeText={(text) => this.setState({email: text})}
-            />
+          label='NUS Email'
+          value={this.state.email}
+          onChangeText={(text) => this.setState({ email: text })}
+        />
         <TextField
-                label='Password'
-                secureTextEntry={true}
-                value={this.state.password}
-                onChangeText={(text) => this.setState({password: text})}
-                onSubmitEditing={()=>this.login()}
-            />
+          label='Password'
+          secureTextEntry={true}
+          value={this.state.password}
+          onChangeText={(text) => this.setState({ password: text })}
+          onSubmitEditing={() => this.login()}
+        />
         <Button
           title="Login"
           color="blue"

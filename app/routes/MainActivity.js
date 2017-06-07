@@ -10,6 +10,8 @@ import {
   FlatList
 } from 'react-native';
 import { StackNavigator, NavigationActions } from 'react-navigation';
+import * as firebase from "firebase";
+import Firebase from "../firebase/Firebase";
 
 
 export default class MainActivity extends Component {
@@ -22,12 +24,15 @@ export default class MainActivity extends Component {
         { key: 'b' }
       ]
     };
+    let userPath = "/users/" + firebase.auth().currentUser.uid + "/info";
+    firebase.database().ref(userPath).once('value').then(
+      (userData) => {
+        this.setState({ name: userData.val().name });
+      });
   }
-
 
   static navigationOptions = {
     header: null
-
   };
 
 
@@ -78,6 +83,7 @@ export default class MainActivity extends Component {
           onActionSelected={this._onActionSelected}
         />
         <View style={styles.content}>
+          <Text> Welcome {this.state.name}</Text>
           <FlatList
             data={this.state.data}
             renderItem={({ item }) => this._renderItem(item)}
