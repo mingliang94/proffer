@@ -35,7 +35,7 @@ class EventListItemTitle extends React.Component {
 
                 <View style={styles.title}>
                     <Text style={styles.titleText}>{this.props.title}</Text>
-                    <Text style={styles.dateText}>{this.props.date.toDateString()}</Text>
+                    <Text style={styles.dateText}>{this.props.date}</Text>
                 </View>
             </View>
         );
@@ -75,6 +75,7 @@ const styles = StyleSheet.create({
     image: {
         width: 40,
         height: 40,
+        borderRadius:20,
         marginTop: 10,
         marginBottom: 10,
         marginRight: 10,

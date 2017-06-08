@@ -4,11 +4,7 @@ import {
   StyleSheet,
   Text,
   View,
-  ToolbarAndroid,
-  Button,
-  TouchableWithoutFeedback,
-  FlatList,
-  Animated
+  ToolbarAndroid
 } from 'react-native';
 import { StackNavigator, NavigationActions } from 'react-navigation';
 import * as firebase from "firebase";
@@ -20,64 +16,24 @@ import EventList from '../components/EventList/EventList';
 export default class MainActivity extends Component {
   constructor(props) {
     super(props);
-    let d1 = new Date();
     this.state = {
       isLoading: true,
-      name: "",
-      data: [{
-        key: '1',
-        title: 'dog',
-        date: d1,
-        desc: "sadfjakfhkdafadfhkadsfhkadsfhkdhfkahfkjadshfkhfkhdksfdas",
-        eventId: "jdhcf9q23hfuihenf"
-      },
-      {
-        key: '2',
-        title: 'asds',
-        date: d1,
-        desc: "Lots of words and lots of words and lots of words and lots of words and lots of words and lots of words and lots of words and",
-        eventId: "nc2nr0i3rjl23dfsp",
-      },
-      {
-        key: '3',
-        title: 'Nice Event!',
-        date: d1,
-        desc: "No description",
-        eventId: "91ic09n2i13ei2ji2",
-      },
-      {
-        key: '4',
-        title: 'Free Money!',
-        date: d1,
-        desc: "No description",
-        eventId: "01c309rej1c923irj",
-      },
-      {
-        key: '5',
-        title: 'A very loooooooooooooooooooooooooooooooooooooooooooooooooooooong title',
-        date: d1,
-        desc: "No description",
-        eventId: "021ixz0912keo2je3",
-      },
-      {
-        key: '6',
-        title: 'A',
-        date: d1,
-        desc: "Test\nTest\nTest\nTest",
-        eventId: "dikt9054ijkriowj5",
-      }]
     };
-    this._loading = this._loading.bind(this);
+    this.data = [];
     this._loading();
   }
 
 
   async _loading() {
-    let userPath = "/users/" + firebase.auth().currentUser.uid + "/info";
-    await firebase.database().ref(userPath).once('value').then(
-      (userData) => {
-        this.setState({ name: userData.val().name });
-      });
+    let eventPath = "/event";
+
+    await firebase.database().ref(eventPath).once('value').then(
+      (eventData) => {
+        eventData.forEach((eventChild) => {
+          this.data.push(eventChild.child("basicInfo").val())
+        });
+      }
+    )
     this.setState({ isLoading: false })
   }
 
@@ -85,7 +41,6 @@ export default class MainActivity extends Component {
   static navigationOptions = {
     header: null
   };
-
 
   _logout = () => {
     this.props
@@ -102,7 +57,7 @@ export default class MainActivity extends Component {
   _onActionSelected = (position) => {
     switch (position) {
       case 0:
-        alert("Function not developed!");
+        this.props.navigation.navigate('Profile');
         break;
       case 1:
         this._logout();
@@ -121,13 +76,13 @@ export default class MainActivity extends Component {
   };
 
   _renderLoad = () => (
-     <View style={{ flex: 1 }}>
-        <Spinner visible={true} textContent={"Loading..."} textStyle={{color: '#FFF'}} />
-      </View>
+    <View style={{ flex: 1 }}>
+      <Spinner visible={true} textContent={"Loading..."} textStyle={{ color: '#FFF' }} />
+    </View>
   );
 
-  _renderContent = () => ( 
-      <EventList data={this.state.data} onPress={null} />
+  _renderContent = () => (
+    <EventList data={this.data} onPress={null} />
   );
 
   render() {
@@ -154,8 +109,6 @@ var toolbarActions = [
   { title: 'Logout', show: 'never' },
 
 ];
-
-
 
 
 const styles = StyleSheet.create({

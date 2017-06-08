@@ -30,12 +30,15 @@ export default class EventList extends React.Component {
         />
     );
 
+    _keyExtractor = ( item, index ) => (item.eventId);
+
     render() {
         return (
             <FlatList
                 data={this.props.data}
                 renderItem={this._renderItem}
                 ItemSeparatorComponent={this._renderSeparator}
+                keyExtractor={this._keyExtractor}
             />
         );
     }

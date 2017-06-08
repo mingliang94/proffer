@@ -70,7 +70,6 @@ export default class loginscreen extends Component {
     } catch (error) {
       alert(error.toString())
     }
-
   }
 
   render() {
