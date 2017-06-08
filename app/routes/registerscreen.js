@@ -42,7 +42,7 @@ export default class registerscreen extends Component {
                 await firebase.auth().createUserWithEmailAndPassword(email, pass);
                 firebase.auth().currentUser.sendEmailVerification();
                 let userPath = "/users/" + firebase.auth().currentUser.uid + "/info";
-                firebase.database().ref(userPath).set({ name: this.state.name });
+                firebase.database().ref(userPath).set({ name: this.state.name, admin: false });
                 Alert.alert("Proffer", "Verification email sent! \nPlease check your email. ",
                     [{ text: "ok", onPress: () => this.props.navigation.goBack() }]
                 );

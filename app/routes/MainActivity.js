@@ -18,6 +18,7 @@ export default class MainActivity extends Component {
     super(props);
     this.state = {
       isLoading: true,
+      admin: false
     };
     this.data = [];
     this._loading();
@@ -26,16 +27,21 @@ export default class MainActivity extends Component {
 
   async _loading() {
     let eventPath = "/event";
-
+    let userPath = "/users/" + firebase.auth().currentUser.uid + "/info";
     await firebase.database().ref(eventPath).once('value').then(
       (eventData) => {
         eventData.forEach((eventChild) => {
           this.data.push(eventChild.child("basicInfo").val())
+          firebase.database().ref(userPath).once('value').then(
+            (userData) => {
+              this.setState({ admin: userData.val().admin });
+            });
         });
       }
     )
     this.setState({ isLoading: false })
   }
+
 
 
   static navigationOptions = {
@@ -55,15 +61,33 @@ export default class MainActivity extends Component {
   }
 
   _onActionSelected = (position) => {
-    switch (position) {
-      case 0:
-        this.props.navigation.navigate('Profile');
-        break;
-      case 1:
-        this._logout();
-        break;
-      default:
-        break;
+    if (this.state.admin) {
+      switch (position) {
+        case 0:
+          this.props.navigation.navigate('Profile');
+          break;
+        case 1:
+         this.props.navigation.navigate('AddEvent');
+          break;
+        case 2:
+          this._logout();
+          break;
+        default:
+          break;
+      }
+
+    }
+    else {
+      switch (position) {
+        case 0:
+          this.props.navigation.navigate('Profile');
+          break;
+        case 1:
+          this._logout();
+          break;
+        default:
+          break;
+      }
     }
   };
 
@@ -87,6 +111,10 @@ export default class MainActivity extends Component {
 
   render() {
     let content = this.state.isLoading ? this._renderLoad() : this._renderContent();
+    var toolbarActions = this.state.admin ?
+      [{ title: 'Edit profile', show: 'never' }, { title: 'Add Event', show: 'never' }, { title: 'Logout', show: 'never' }] :
+      [{ title: 'Edit profile', show: 'never' }, { title: 'Logout', show: 'never' }];
+
     return (
       <View style={styles.container}>
         <ToolbarAndroid
@@ -104,11 +132,6 @@ export default class MainActivity extends Component {
   }
 }
 
-var toolbarActions = [
-  { title: 'Edit profile', show: 'never' },
-  { title: 'Logout', show: 'never' },
-
-];
 
 
 const styles = StyleSheet.create({
