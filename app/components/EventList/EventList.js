@@ -13,6 +13,7 @@ export default class EventList extends React.Component {
             date={item.date}
             description={item.desc}
             eventId={item.eventId}
+            time={item.time}
             onPress={this.props.onPress}
         />
     );

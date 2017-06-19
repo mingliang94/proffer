@@ -14,7 +14,6 @@ export default class EventPageView extends React.Component {
     }
 
 
-
     render() {
         return (
             <View style={styles.container}>

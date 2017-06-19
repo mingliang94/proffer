@@ -8,9 +8,10 @@ export default class EventListItem extends React.Component {
 
     signupEvent = () => {
         this.props.onPress({
-          eventId: this.props.eventId,
-          title: this.props.title,
-          date: this.props.date
+            eventId: this.props.eventId,
+            title: this.props.title,
+            date: this.props.date,
+            time:this.props.time
         });
     }
 

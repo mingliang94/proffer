@@ -1,17 +1,21 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, TextInput, KeyboardAvoidingView, ScrollView } from 'react-native';
 import * as firebase from "firebase";
 import Firebase from "../firebase/Firebase";
+import { TextField } from 'react-native-material-textfield';
 
 var self = null;
 export default class signupEvent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            username:"",
+            username: "",
             title: this.props.navigation.state.params.title,
             eventId: this.props.navigation.state.params.eventId,
-            date: this.props.navigation.state.params.date
+            date: this.props.navigation.state.params.date,
+            mobileNo: "",
+            email: "",
+            addInfo: ""
         };
         this._loading();
         self = this.state.title;
@@ -25,8 +29,6 @@ export default class signupEvent extends React.Component {
             });
     };
 
-    
-
     static navigationOptions = {
         title: self,
         headerStyle: {
@@ -37,9 +39,39 @@ export default class signupEvent extends React.Component {
 
     render() {
         return (
-            <View style={styles.container}>
-                <Text> Name: {this.state.username} </Text>
-            </View>
+            <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                <View style={styles.container}>
+                    <KeyboardAvoidingView behavior='padding' style={{ flex: 1 }}>
+                        <View style={{ alignItems: 'stretch' }}>
+                            <Text style={styles.name}> Name: {this.state.username} </Text>
+                            <View style={{ flex: 1, alignItems: 'stretch' }}>
+                                <TextField
+                                    label="Mobile No."
+                                    value={this.state.mobileNo}
+                                    onChangeText={(text) => this.setState({ mobileNo: text })}
+                                />
+                                <TextField
+                                    label="Prefered Email"
+                                    keyboardType={'email-address'}
+                                    value={this.state.email}
+                                    onChangeText={(text) => this.setState({ email: text })}
+                                />
+                                <Text style={styles.addInfo}> Additional information: </Text>
+                                <View style={{ flex: 1, backgroundColor: 'white', margin: 10, borderWidth: 0.5, borderColor: 'black' }}>
+                                    <TextInput
+                                        value={this.state.addInfo}
+                                        multiline={true}
+                                        numberOfLines={9}
+                                        onChangeText={(text) => this.setState({ addInfo: text })}
+                                        style={{ textAlignVertical: 'top' }}
+                                        underlineColorAndroid="transparent"
+                                    />
+                                </View>
+                            </View>
+                        </View>
+                    </KeyboardAvoidingView>
+                </View>
+            </ScrollView>
 
         )
     };
@@ -48,7 +80,20 @@ export default class signupEvent extends React.Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
         backgroundColor: 'yellow',
+        justifyContent: 'center',
+        height: '100%',
+
+    },
+    name: {
+        fontSize: 20,
+        textAlign: 'center',
+        fontFamily: 'Roboto'
+    },
+
+    addInfo: {
+        fontSize: 15,
+        fontFamily: 'Roboto',
+        marginTop:10,
     }
 });

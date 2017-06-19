@@ -68,11 +68,13 @@ export default class registerscreen extends Component {
                 <TextField
                     label='Name'
                     value={this.state.name}
+                    autoCapitalize='words'
                     onChangeText={(text) => this.setState({ name: text })}
                 />
                 <TextField
                     label='NUS Email address'
                     value={this.state.email}
+                    keyboardType={'email-address'}
                     onChangeText={(text) => this.setState({ email: text })}
                 />
 
