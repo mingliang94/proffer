@@ -6,13 +6,21 @@ export default class EventListItem extends React.Component {
         super(props);
     }
 
+    signupEvent = () => {
+        this.props.onPress({
+          eventId: this.props.eventId,
+          title: this.props.title,
+          date: this.props.date
+        });
+    }
+
 
 
     render() {
         return (
             <View style={styles.container}>
                 <TouchableWithoutFeedback
-                    onPress={() => this.props.onPress(this.props.eventId)}
+                    onPress={this.signupEvent}
                 >
                     <View>
                         {/* Title bar (includes icon, title, date) */}
@@ -71,11 +79,12 @@ const styles = StyleSheet.create({
         marginLeft: 20,
         marginRight: 20,
         marginBottom: 10,
+        maxHeight: 50
     },
     image: {
         width: 40,
         height: 40,
-        borderRadius:20,
+        borderRadius: 20,
         marginTop: 10,
         marginBottom: 10,
         marginRight: 10,

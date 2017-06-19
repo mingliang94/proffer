@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, TextInput, View, FlatList, Button, Alert, KeyboardAvoidingView } from 'react-native';
 import * as firebase from "firebase";
+import { TextField } from 'react-native-material-textfield';
 
 export default class AddEvent extends React.Component {
     constructor(props) {
@@ -29,48 +30,34 @@ export default class AddEvent extends React.Component {
         });
     };
 
+
     render() {
         return (
-            <KeyboardAvoidingView style={styles.container} behavior='padding'>
+            <View style={styles.container} >
                 <View style={{ alignItems: 'center' }}>
                     <Text style={{ fontWeight: 'bold' }}>BASIC INFO</Text>
                 </View>
-                <TextInput
-                    placeholder="Enter event name"
+                <TextField
+                    label="Enter event name"
                     onChangeText={(title) => this.setState({ title })}
-                    marginBottom={30}
-                    marginLeft={20}
-                    marginRight={20}
                 />
-                <TextInput
-                    placeholder="Enter event date"
+                <TextField
+                    label="Enter event date"
                     onChangeText={(date) => this.setState({ date })}
-                    marginBottom={30}
-                    marginLeft={20}
-                    marginRight={20}
                 />
-                <TextInput
-                    placeholder="Enter event description"
+                <TextField
+                    label="Enter event description"
                     onChangeText={(desc) => this.setState({ desc })}
-                    marginBottom={30}
-                    marginLeft={20}
-                    marginRight={20}
+                    multiline={true}
                 />
-                <View style={{ alignItems: 'center' }}>
-                    <Text>Randomly generated event ID: {this.state.eventId}</Text>
-                    <Text style={{ fontWeight: 'bold' }}>MORE INFO</Text>
-                </View>
 
-                <TextInput
-                    placeholder="Enter signup stuff"
+                <TextField
+                    label ="Enter signup stuff"
                     onChangeText={(signupProcess) => this.setState({ signupProcess })}
-                    marginBottom={30}
-                    marginLeft={20}
-                    marginRight={20}
                 />
 
                 <Button title="Create Event" onPress={this.onPress} />
-            </KeyboardAvoidingView>
+            </View>
         );
 
     }

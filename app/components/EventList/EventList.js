@@ -7,17 +7,13 @@ export default class EventList extends React.Component {
         super(props);
     }
 
-    onPress = (eventId) => {
-        this.props.onPress(eventId);
-    }
-
     _renderItem = ({ item }) => (
         <EventListItem
             title={item.title}
             date={item.date}
             description={item.desc}
             eventId={item.eventId}
-            onPress={this.onPress}
+            onPress={this.props.onPress}
         />
     );
 
@@ -39,6 +35,7 @@ export default class EventList extends React.Component {
                 renderItem={this._renderItem}
                 ItemSeparatorComponent={this._renderSeparator}
                 keyExtractor={this._keyExtractor}
+
             />
         );
     }

@@ -18,7 +18,8 @@ export default class MainActivity extends Component {
     super(props);
     this.state = {
       isLoading: true,
-      admin: false
+      admin: false,
+      data: []
     };
     this.data = [];
     this._loading();
@@ -28,14 +29,15 @@ export default class MainActivity extends Component {
   async _loading() {
     let eventPath = "/event";
     let userPath = "/users/" + firebase.auth().currentUser.uid + "/info";
+    firebase.database().ref(userPath).once('value').then(
+      (userData) => {
+        this.setState({ admin: userData.val().admin });
+      });
     await firebase.database().ref(eventPath).once('value').then(
       (eventData) => {
         eventData.forEach((eventChild) => {
-          this.data.push(eventChild.child("basicInfo").val())
-          firebase.database().ref(userPath).once('value').then(
-            (userData) => {
-              this.setState({ admin: userData.val().admin });
-            });
+          this.data.push(eventChild.child("basicInfo").val());
+          this.setState({ data: this.data });
         });
       }
     )
@@ -67,7 +69,7 @@ export default class MainActivity extends Component {
           this.props.navigation.navigate('Profile');
           break;
         case 1:
-         this.props.navigation.navigate('AddEvent');
+          this.props.navigation.navigate('AddEvent');
           break;
         case 2:
           this._logout();
@@ -106,8 +108,14 @@ export default class MainActivity extends Component {
   );
 
   _renderContent = () => (
-    <EventList data={this.data} onPress={null} />
+    <EventList data={this.state.data} onPress={(eventInfo) => {
+      this.props.navigation.navigate('EventPage', eventInfo)
+    }
+    } />
   );
+
+
+
 
   render() {
     let content = this.state.isLoading ? this._renderLoad() : this._renderContent();
