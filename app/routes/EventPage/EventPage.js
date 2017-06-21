@@ -9,7 +9,8 @@ export default class EventPageView extends React.Component {
         this.state = {
             title: this.props.navigation.state.params.title,
             eventId: this.props.navigation.state.params.eventId,
-            date: this.props.navigation.state.params.date
+            date: this.props.navigation.state.params.date,
+            time: this.props.navigation.state.params.time
         }
     }
 
@@ -18,7 +19,12 @@ export default class EventPageView extends React.Component {
         return (
             <View style={styles.container}>
                 <ScrollView>
-                    <EventPageContent title={this.state.title} date={this.state.date} eventId={this.state.eventId} />
+                    <EventPageContent
+                        title={this.state.title}
+                        date={this.state.date}
+                        eventId={this.state.eventId}
+                        time={this.state.time}
+                    />
                 </ScrollView>
                 <Button
                     title="Go to SignUp Page"

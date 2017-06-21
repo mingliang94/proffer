@@ -18,9 +18,9 @@ export default class AddEvent extends React.Component {
     }
 
      static navigationOptions = {
-        title: 'Add New Events',
+        title: 'Add New Event',
         headerStyle: {
-            backgroundColor: '#95A5A6',
+            backgroundColor: '#F8C471',
             elevation: null,
         },
     };

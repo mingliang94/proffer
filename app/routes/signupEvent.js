@@ -1,8 +1,9 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput, KeyboardAvoidingView, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, TextInput, KeyboardAvoidingView, ScrollView, Button, Alert } from 'react-native';
 import * as firebase from "firebase";
 import Firebase from "../firebase/Firebase";
 import { TextField } from 'react-native-material-textfield';
+import { StackNavigator, NavigationActions } from 'react-navigation';
 
 var self = null;
 export default class signupEvent extends React.Component {
@@ -25,7 +26,11 @@ export default class signupEvent extends React.Component {
         let userPath = "/users/" + firebase.auth().currentUser.uid + "/info";
         firebase.database().ref(userPath).once('value').then(
             (userData) => {
-                this.setState({ username: userData.val().name });
+                this.setState({
+                    username: userData.val().name,
+                    mobileNo: userData.val().mobileNo,
+                    email: userData.val().email
+                });
             });
     };
 
@@ -36,6 +41,40 @@ export default class signupEvent extends React.Component {
             elevation: null,
         },
     };
+
+    async _signup() {
+        var eventPath = "/event/" + this.state.eventId + "/users/" + firebase.auth().currentUser.uid;
+        var userPath = "/users/" + firebase.auth().currentUser.uid + "/events/" + this.state.eventId;
+        try {
+            await firebase.database().ref(eventPath).set({
+                name: this.state.username,
+                mobileNo: this.state.mobileNo,
+                email: this.state.email,
+                addInfo: this.state.addInfo,
+            }).then(
+                () => firebase.database().ref(userPath).update({
+                    signup: true
+                })
+                );
+            Alert.alert("Proffer", "Sucessfully signed up!",
+                [{ text: "ok", onPress: () => this.loginMain() }])
+        }
+        catch (error) {
+            alert(error.toString())
+        }
+    }
+
+    loginMain() {
+        return this.props
+            .navigation
+            .dispatch(NavigationActions.reset(
+                {
+                    index: 0,
+                    actions: [
+                        NavigationActions.navigate({ routeName: 'Event' })
+                    ]
+                }));
+    }
 
     render() {
         return (
@@ -68,6 +107,11 @@ export default class signupEvent extends React.Component {
                                     />
                                 </View>
                             </View>
+                            <Button
+                                title='Sign Up for event'
+                                color='blue'
+                                onPress={() => this._signup()}
+                            />
                         </View>
                     </KeyboardAvoidingView>
                 </View>
@@ -94,6 +138,6 @@ const styles = StyleSheet.create({
     addInfo: {
         fontSize: 15,
         fontFamily: 'Roboto',
-        marginTop:10,
+        marginTop: 10,
     }
 });

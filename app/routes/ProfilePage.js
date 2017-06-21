@@ -6,6 +6,7 @@ import {
     View,
     Button,
     FlatList,
+    Alert
 } from 'react-native';
 import { StackNavigator, NavigationActions } from 'react-navigation';
 import * as firebase from "firebase";
@@ -18,8 +19,8 @@ export default class ProfilePage extends Component {
         this.state = {
             isLoading: true,
             name: "",
-            course: "",
-            year: "",
+            mobileNo: "",
+            email: "",
         }
         this._loading();
     }
@@ -37,20 +38,52 @@ export default class ProfilePage extends Component {
     static navigationOptions = {
         title: 'Profile Page',
         headerStyle: {
-            backgroundColor: '#95A5A6',
+            backgroundColor: '#F8C471',
             elevation: null,
         },
     };
+
+    async _updateProfile() {
+        let userPath = "/users/" + firebase.auth().currentUser.uid + "/info";
+        try {
+            await firebase.database().ref(userPath).update({
+                name: this.state.name,
+                mobileNo: this.state.mobileNo,
+                email: this.state.email
+            });
+            Alert.alert("Proffer","Sucessfully updated profile!",
+            [{ text: "ok", onPress: () => this.props.navigation.goBack()}])
+        }
+        catch(error){
+            alert(error.toString())
+        }
+    }
 
     render() {
         return (
             <View style={styles.container} >
                 <Text style={styles.title}> Profile </Text>
-                <Text style={styles.name}> Name: {this.state.name}</Text>
                 <TextField
-                    label="Course of study"
-                    value={this.state.course}
-                    onChangeText={(text) => this.setState({ course: text })}
+                    label="Name"
+                    value={this.state.name}
+                    onChangeText={(text) => this.setState({ name: text })}
+                />
+                <TextField
+                    label="Mobile No."
+                    keyboardType={'numeric'}
+                    value={this.state.mobileNo}
+                    onChangeText={(text) => this.setState({ mobileNo: text })}
+                />
+                <TextField
+                    label="Preferred Email"
+                    keyboardType={'email-address'}
+                    value={this.state.email}
+                    onChangeText={(text) => this.setState({ email: text })}
+                />
+                <Button
+                    title="Update profile"
+                    color='blue'
+                    onPress={() => this._updateProfile()}
                 />
             </View >
         )
@@ -71,9 +104,9 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: 'black',
     },
-    name:{
-         fontSize: 20,
-         
+    name: {
+        fontSize: 20,
+
     }
 })
 
