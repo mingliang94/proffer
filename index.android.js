@@ -12,6 +12,7 @@ import ProfilePage from './app/routes/ProfilePage';
 import AddEvent from './app/routes/AddEvent';
 import EventPage from './app/routes/EventPage/EventPage';
 import signupEvent from './app/routes/signupEvent';
+import UserEvent from './app/routes/UserEvent';
 
 const proffer = StackNavigator({
   Login: { screen: loginscreen },
@@ -20,7 +21,8 @@ const proffer = StackNavigator({
   Profile: {screen: ProfilePage},
   AddEvent:{screen: AddEvent},
   EventPage:{screen:EventPage},
-  signupEvent: {screen: signupEvent}
+  signupEvent: {screen: signupEvent},
+  UserEvent:{screen: UserEvent}
 });
 
 

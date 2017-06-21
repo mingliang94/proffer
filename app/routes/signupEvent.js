@@ -44,7 +44,7 @@ export default class signupEvent extends React.Component {
 
     async _signup() {
         var eventPath = "/event/" + this.state.eventId + "/users/" + firebase.auth().currentUser.uid;
-        var userPath = "/users/" + firebase.auth().currentUser.uid + "/events/" + this.state.eventId;
+        var userPath = "/users/" + firebase.auth().currentUser.uid + "/events/"+ this.state.eventId;
         try {
             await firebase.database().ref(eventPath).set({
                 name: this.state.username,
@@ -53,7 +53,7 @@ export default class signupEvent extends React.Component {
                 addInfo: this.state.addInfo,
             }).then(
                 () => firebase.database().ref(userPath).update({
-                    signup: true
+                    eventId: this.state.eventId
                 })
                 );
             Alert.alert("Proffer", "Sucessfully signed up!",

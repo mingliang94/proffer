@@ -62,16 +62,26 @@ export default class MainActivity extends Component {
         }));
   }
 
+  async _refresh() {
+    await this.setState({ data: [] })
+    this.data = [] 
+    this.setState({ isLoading: true });
+    this._loading();
+  }
+
   _onActionSelected = (position) => {
     if (this.state.admin) {
       switch (position) {
         case 0:
-          this.props.navigation.navigate('Profile');
+          this._refresh();
           break;
         case 1:
-          this.props.navigation.navigate('AddEvent');
+          this.props.navigation.navigate('Profile');
           break;
         case 2:
+          this.props.navigation.navigate('AddEvent');
+          break;
+        case 3:
           this._logout();
           break;
         default:
@@ -82,9 +92,15 @@ export default class MainActivity extends Component {
     else {
       switch (position) {
         case 0:
-          this.props.navigation.navigate('Profile');
+          this._refresh();
           break;
         case 1:
+          this.props.navigation.navigate('Profile');
+          break;
+        case 2:
+          this.props.navigation.navigate('UserEvent');
+          break;
+        case 3:
           this._logout();
           break;
         default:
@@ -93,13 +109,6 @@ export default class MainActivity extends Component {
     }
   };
 
-  _renderItem(item) {
-    return (
-      <View style={styles.content}>
-        <Text>{item.key}</Text>
-      </View>
-    );
-  };
 
   _renderLoad = () => (
     <View style={{ flex: 1 }}>
@@ -120,8 +129,8 @@ export default class MainActivity extends Component {
   render() {
     let content = this.state.isLoading ? this._renderLoad() : this._renderContent();
     var toolbarActions = this.state.admin ?
-      [{ title: 'Edit profile', show: 'never' }, { title: 'Add Event', show: 'never' }, { title: 'Logout', show: 'never' }] :
-      [{ title: 'Edit profile', show: 'never' }, { title: 'Logout', show: 'never' }];
+      [{ title: "refresh", show: 'always' }, { title: 'Edit profile', show: 'never' }, { title: 'Add Event', show: 'never' }, { title: 'Logout', show: 'never' }] :
+      [{ title: "refresh", show: 'always' }, { title: 'Edit profile', show: 'never' }, { title: 'Event Signed Up', show: 'never' }, { title: 'Logout', show: 'never' }];
 
     return (
       <View style={styles.container}>
