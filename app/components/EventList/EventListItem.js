@@ -11,7 +11,8 @@ export default class EventListItem extends React.Component {
             eventId: this.props.eventId,
             title: this.props.title,
             date: this.props.date,
-            time:this.props.time
+            time:this.props.time,
+            desc: this.props.desc
         });
     }
 
@@ -28,7 +29,7 @@ export default class EventListItem extends React.Component {
                         <EventListItemTitle title={this.props.title} date={this.props.date} />
 
                         {/* Content (includes description, organiser, etc */}
-                        <EventListItemContent description={this.props.description} />
+                        <EventListItemContent desc={this.props.desc} />
                     </View>
                 </TouchableWithoutFeedback>
             </View>
@@ -55,7 +56,7 @@ class EventListItemContent extends React.Component {
     render() {
         return (
             <View style={styles.containerDesc}>
-                <Text>{this.props.description}</Text>
+                <Text>{this.props.desc}</Text>
             </View>
         );
     }
@@ -64,6 +65,9 @@ class EventListItemContent extends React.Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        margin:5,
+        backgroundColor:'white',
+        borderRadius:8
     },
     containerTitle: {
         flex: 1,

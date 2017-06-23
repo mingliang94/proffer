@@ -20,7 +20,7 @@ export default class AddEvent extends React.Component {
     static navigationOptions = {
         title: 'Add New Event',
         headerStyle: {
-            backgroundColor: '#F8C471',
+            backgroundColor: 'yellow',
             elevation: null,
         },
     };
@@ -47,8 +47,10 @@ export default class AddEvent extends React.Component {
             }).then(() => {
                 firebase.database().ref("/event/" + this.state.eventId + "/moreInfo").set({
                     addInfo: this.state.addInfo,
-                }).then(() => firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/organise/" + this.state.eventId).update({ eventId: this.state.eventId })).then(() => {
-                        Alert.alert("Proffer", "Event created!",[{ text: "ok", onPress: () => this.props.navigation.goBack() }]);
+                }).then(() => firebase.database().ref("/users/" + firebase.auth().currentUser.uid + "/organise/" + this.state.eventId)
+                    .update({ eventId: this.state.eventId })).then(() => {
+                        Alert.alert("Proffer", "Event created!",
+                            [{ text: "ok", onPress: () => this.props.navigation.goBack() }]);
                     });
             });
         }
@@ -63,7 +65,6 @@ export default class AddEvent extends React.Component {
                         <View style={{ alignItems: 'center' }}>
                             <Text style={styles.pagetitle}>Event Information</Text>
                         </View>
-
                         <TextField
                             label="Enter Organisation Name"
                             onChangeText={(organisationName) => this.setState({ organisationName })}
@@ -85,9 +86,8 @@ export default class AddEvent extends React.Component {
                             onChangeText={(desc) => this.setState({ desc })}
                             multiline={true}
                         />
-
                         <Text style={styles.addInfo}> Full information </Text>
-                        <View style={{ flex: 1, backgroundColor: 'white', margin: 10, borderWidth: 0.5, borderColor: 'black' }}>
+                        <View style={{ flex: 1, backgroundColor: '#D0D3D4', margin: 10, borderWidth: 0.5, borderColor: 'black' }}>
                             <TextInput
                                 value={this.state.addInfo}
                                 multiline={true}
@@ -97,7 +97,6 @@ export default class AddEvent extends React.Component {
                                 underlineColorAndroid="transparent"
                             />
                         </View>
-
                         <Button
                             title="Create Event"
                             onPress={this.onPress}
@@ -115,7 +114,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'stretch',
-        backgroundColor: 'yellow'
+        backgroundColor: 'white'
     },
     pagetitle: {
         fontSize: 20,

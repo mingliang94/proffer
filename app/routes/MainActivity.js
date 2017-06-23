@@ -136,7 +136,7 @@ export default class MainActivity extends Component {
       <View style={styles.container}>
         <ToolbarAndroid
           style={{
-            backgroundColor: '#F8C471',
+            backgroundColor: 'yellow',
             height: 56,
           }}
           title="Proffer"
@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-between',
     alignItems: 'stretch',
-    backgroundColor: 'yellow',
+    backgroundColor: '#D0D3D4',
   },
   content: {
     flex: 1,

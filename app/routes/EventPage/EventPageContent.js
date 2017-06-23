@@ -24,7 +24,7 @@ export default class EventPageContent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            eventDetails: {time:null},
+            eventDetails: "",
         }
     }
 
@@ -35,13 +35,13 @@ export default class EventPageContent extends React.Component {
                     title={this.props.title}
                     date={this.props.date}
                     time={this.props.time}
-                    eventDetails={this.state.eventDetails}
+                    desc={this.props.desc}
                 />
                 <View style={styles.lineView} />
                 <Text>   Images </Text>
                 <EventPageImageScroll imgSrc={null} />
                 <EventDescription
-                    eventDetails={this.state.eventDetails}
+                    moreInfo={this.props.moreInfo}
                 />
 
             </View>
@@ -52,24 +52,16 @@ export default class EventPageContent extends React.Component {
 class EventDescription extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { asdtext: '' }
     }
 
     render() {
         return (
             <View style={styles.contentContainer}>
                 <Text style={{ fontWeight: 'bold' }}>
-                    Event Location: {this.props.eventDetails.location}{'\n '}
-                </Text>
-                <Text style={{ fontWeight: 'bold' }}>
-                    Event Description:
-                </Text>
-                <Text>{this.props.eventDetails.longDesc}{'\n '}</Text>
-                <Text style={{ fontWeight: 'bold' }}>
-                    Additional information required from participant:
+                   Full Event Description: {'\n'}
                 </Text>
                 <Text>
-                    {this.props.eventDetails.addInfo}{'\n\n\n '}
+                    {this.props.moreInfo}{'\n\n\n '}
                 </Text>
             </View>
         );
@@ -93,9 +85,10 @@ class EventPageContentTitle extends React.Component {
                     <Text style={styles.titleDateText}>
                         {this.props.date}, {this.props.time}
                     </Text>
-                    <Text style={styles.titleOrgText}>
+                    <Text style={styles.desc}>{this.props.desc}</Text>
+                  {/*  <Text style={styles.titleOrgText}>
                         {this.props.eventDetails.organisationName}
-                    </Text>
+                    </Text>*/}
                 </View>
             </View>
         );
@@ -107,10 +100,14 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'stretch',
+        margin:10
+    },
+    desc:{
+        fontSize:13,
+        fontStyle: 'italic'
     },
     titleContainer: {
         flex: 1,
-        marginTop: 20,
         justifyContent: 'center',
         alignItems: 'stretch',
         flexDirection: 'row',

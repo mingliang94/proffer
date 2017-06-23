@@ -11,21 +11,14 @@ export default class EventList extends React.Component {
         <EventListItem
             title={item.title}
             date={item.date}
-            description={item.desc}
+            desc={item.desc}
             eventId={item.eventId}
             time={item.time}
             onPress={this.props.onPress}
         />
     );
 
-    _renderSeparator = () => (
-        <View
-            style={{
-                height: 1,
-                backgroundColor: 'black',
-            }}
-        />
-    );
+   
 
     _keyExtractor = ( item, index ) => (item.eventId);
 
@@ -34,7 +27,6 @@ export default class EventList extends React.Component {
             <FlatList
                 data={this.props.data}
                 renderItem={this._renderItem}
-                ItemSeparatorComponent={this._renderSeparator}
                 keyExtractor={this._keyExtractor}
 
             />

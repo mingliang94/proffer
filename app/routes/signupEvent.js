@@ -5,7 +5,6 @@ import Firebase from "../firebase/Firebase";
 import { TextField } from 'react-native-material-textfield';
 import { StackNavigator, NavigationActions } from 'react-navigation';
 
-var self = null;
 export default class signupEvent extends React.Component {
     constructor(props) {
         super(props);
@@ -19,7 +18,6 @@ export default class signupEvent extends React.Component {
             addInfo: ""
         };
         this._loading();
-        self = this.state.title;
     };
 
     _loading() {
@@ -35,9 +33,9 @@ export default class signupEvent extends React.Component {
     };
 
     static navigationOptions = {
-        title: self,
+        title: "Sign for Event",
         headerStyle: {
-            backgroundColor: '#95A5A6',
+            backgroundColor: 'yellow',
             elevation: null,
         },
     };
@@ -96,7 +94,7 @@ export default class signupEvent extends React.Component {
                                     onChangeText={(text) => this.setState({ email: text })}
                                 />
                                 <Text style={styles.addInfo}> Additional information: </Text>
-                                <View style={{ flex: 1, backgroundColor: 'white', margin: 10, borderWidth: 0.5, borderColor: 'black' }}>
+                                <View style={{ flex: 1, backgroundColor: '#D0D3D4', margin: 10, borderWidth: 0.5, borderColor: 'black' }}>
                                     <TextInput
                                         value={this.state.addInfo}
                                         multiline={true}
@@ -124,15 +122,14 @@ export default class signupEvent extends React.Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: 'yellow',
+        backgroundColor: 'white',
         justifyContent: 'center',
         height: '100%',
 
     },
     name: {
         fontSize: 20,
-        textAlign: 'center',
-        fontFamily: 'Roboto'
+        textAlign: 'left',
     },
 
     addInfo: {

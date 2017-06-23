@@ -30,7 +30,11 @@ export default class ProfilePage extends Component {
         let userPath = "/users/" + firebase.auth().currentUser.uid + "/info";
         await firebase.database().ref(userPath).once('value').then(
             (userData) => {
-                this.setState({ name: userData.val().name });
+                this.setState({ 
+                    name: userData.val().name,
+                    mobileNo:userData.val().mobileNo,
+                    email: userData.val().email
+                });
             });
         this.setState({ isLoading: false })
     }
@@ -38,7 +42,7 @@ export default class ProfilePage extends Component {
     static navigationOptions = {
         title: 'Profile Page',
         headerStyle: {
-            backgroundColor: '#F8C471',
+            backgroundColor: 'yellow',
             elevation: null,
         },
     };
@@ -94,15 +98,16 @@ export default class ProfilePage extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: 'yellow',
-        justifyContent: 'center',
+        backgroundColor: 'white',
+        justifyContent: 'flex-start',
+        
     },
     title: {
         fontSize: 30,
         textAlign: 'center',
         margin: 10,
         fontWeight: 'bold',
-        color: 'black',
+        color: 'purple',
     },
     name: {
         fontSize: 20,

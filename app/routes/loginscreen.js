@@ -6,10 +6,10 @@ import {
   View,
   Image,
   TextInput,
-  Button,
   TouchableWithoutFeedback,
   AsyncStorage,
-  Alert
+  Alert,
+  TouchableHighlight
 } from 'react-native';
 import TextBox from '../components/TextBox';
 import LoginButton from '../components/loginpage/LoginButton';
@@ -17,13 +17,18 @@ import { TextField } from 'react-native-material-textfield';
 import { StackNavigator, NavigationActions } from 'react-navigation';
 import * as firebase from "firebase";
 import Firebase from "../firebase/Firebase";
+import Spinner from 'react-native-loading-spinner-overlay';
 
 export default class loginscreen extends Component {
 
   constructor(props) {
     super(props);
     Firebase.initialise();
-    this.state = { email: "", password: "" };
+    this.state = {
+      email: "",
+      password: "",
+      isLoading: false
+    };
     this.login = this.login.bind(this);
   }
 
@@ -55,6 +60,7 @@ export default class loginscreen extends Component {
   }
 
   async login() {
+    this.setState({ isLoading: true });
     try {
       await firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password);
       //Stores Email and password upon successful login 
@@ -68,9 +74,11 @@ export default class loginscreen extends Component {
         Alert.alert("Proffer", "Email not verified \nKindly verify your NUS email.")
       }
     } catch (error) {
+      this.setState({ isLoading: false })
       alert(error.toString())
     }
   }
+
 
   render() {
     return (
@@ -87,11 +95,13 @@ export default class loginscreen extends Component {
             source={require('../images/handshake.png')}
           />
         </View>
+
         <TextField
           label='NUS Email'
           value={this.state.email}
           onChangeText={(text) => this.setState({ email: text })}
         />
+
         <TextField
           label='Password'
           secureTextEntry={true}
@@ -99,17 +109,19 @@ export default class loginscreen extends Component {
           onChangeText={(text) => this.setState({ password: text })}
           onSubmitEditing={() => this.login()}
         />
-        <Button
-          title="Login"
-          color="blue"
-          onPress={() => this.login()}
-        />
+        <TouchableHighlight style={styles.rounded} onPress={() => this.login()}>
+          <View>
+            <Text style={{ textAlign: 'center', fontSize: 20, color: 'white' }}> Login </Text>
+          </View>
+        </TouchableHighlight>
+
         <View style={{ alignItems: 'center' }}>
           <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('Register', { email: this.state.email, password: this.state.password })}>
             <View style={styles.signup}>
               <Text style={{ alignItems: 'center', textDecorationLine: 'underline', fontSize: 20 }}>
                 Sign up
               </Text>
+              <Spinner visible={this.state.isLoading} textContent={"Loading..."} textStyle={{ color: '#FFF' }} />
             </View>
           </TouchableWithoutFeedback>
         </View>
@@ -138,6 +150,15 @@ const styles = StyleSheet.create({
     fontFamily: 'monospace',
     textShadowOffset: { width: 4, height: 4 }
   },
+  rounded: {
+    height: 40,
+    borderRadius: 20,
+    margin: 10,
+    alignItems: 'stretch',
+    justifyContent: 'center',
+    backgroundColor: 'blue',
+  },
+
   signup: {
     justifyContent: 'center',
     alignItems: 'center',
