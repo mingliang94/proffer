@@ -13,6 +13,7 @@ import AddEvent from './app/routes/AddEvent';
 import EventPage from './app/routes/EventPage/EventPage';
 import signupEvent from './app/routes/signupEvent';
 import UserEvent from './app/routes/UserEvent';
+import OrganiserViewEventList from './app/routes/OrganiserViewEventList'
 
 const proffer = StackNavigator({
   Login: { screen: loginscreen },
@@ -22,7 +23,8 @@ const proffer = StackNavigator({
   AddEvent:{screen: AddEvent},
   EventPage:{screen:EventPage},
   signupEvent: {screen: signupEvent},
-  UserEvent:{screen: UserEvent}
+  UserEvent:{screen: UserEvent},
+  OrgViewEvents:{screen:OrganiserViewEventList}
 });
 
 

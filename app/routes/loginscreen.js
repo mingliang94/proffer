@@ -71,6 +71,7 @@ export default class loginscreen extends Component {
         this.loginMain()
       }
       else {
+        this.setState({ isLoading: false })
         Alert.alert("Proffer", "Email not verified \nKindly verify your NUS email.")
       }
     } catch (error) {
@@ -82,55 +83,72 @@ export default class loginscreen extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          proffer
+
+      <Image
+        style={styles.imgcontainer}
+        source={require('../images/bluebackground1.png')}
+      >
+
+        <View style={styles.container}>
+          <Text style={styles.welcome}>
+            proffer
         </Text>
-        <View style={{
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
-          <Image
-            style={{ width: 100, height: 100 }}
-            source={require('../images/handshake.png')}
-          />
-        </View>
-
-        <TextField
-          label='NUS Email'
-          value={this.state.email}
-          onChangeText={(text) => this.setState({ email: text })}
-        />
-
-        <TextField
-          label='Password'
-          secureTextEntry={true}
-          value={this.state.password}
-          onChangeText={(text) => this.setState({ password: text })}
-          onSubmitEditing={() => this.login()}
-        />
-        <TouchableHighlight style={styles.rounded} onPress={() => this.login()}>
-          <View>
-            <Text style={{ textAlign: 'center', fontSize: 20, color: 'white' }}> Login </Text>
+          <View style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+            <Image
+              style={{ width: 100, height: 100 }}
+              source={require('../images/handshake.png')}
+            />
           </View>
-        </TouchableHighlight>
 
-        <View style={{ alignItems: 'center' }}>
-          <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('Register', { email: this.state.email, password: this.state.password })}>
-            <View style={styles.signup}>
-              <Text style={{ alignItems: 'center', textDecorationLine: 'underline', fontSize: 20 }}>
-                Sign up
-              </Text>
-              <Spinner visible={this.state.isLoading} textContent={"Loading..."} textStyle={{ color: '#FFF' }} />
+          <View style={styles.inputContainer}>
+            <TextField
+              baseColor='white'
+              textColor='white'
+              fontSize={18}
+              label='NUS Email'
+              value={this.state.email}
+              onChangeText={(text) => this.setState({ email: text })}
+            />
+          </View>
+
+          <View style={styles.inputContainer}>
+            <TextField
+              baseColor='white'
+              textColor='white'
+              fontSize={18}
+              label='Password'
+              secureTextEntry={true}
+              value={this.state.password}
+              onChangeText={(text) => this.setState({ password: text })}
+            />
+          </View>
+          <TouchableHighlight style={styles.rounded} onPress={() => this.login()}>
+            <View>
+              <Text style={{ textAlign: 'center', fontSize: 20, color: 'black' }}> Login </Text>
             </View>
-          </TouchableWithoutFeedback>
-        </View>
+          </TouchableHighlight>
 
-        <Text style={styles.instructions}>
-          Register using NUS email{'\n'}
-          Proffer is an app for you to help others
+          <View style={{ alignItems: 'center' }}>
+            <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('Register', { email: this.state.email, password: this.state.password })}>
+              <View style={styles.signup}>
+                <Text style={{ alignItems: 'center', textDecorationLine: 'underline', fontSize: 20, color: 'white' }}>
+                  Sign up
+              </Text>
+                <Spinner visible={this.state.isLoading} textContent={"Loading..."} textStyle={{ color: '#FFF' }} />
+              </View>
+            </TouchableWithoutFeedback>
+          </View>
+
+          <Text style={styles.instructions}>
+            Register using NUS email{'\n'}
+            Proffer is an app for you to help others
         </Text>
-      </View >
+        </View >
+      </Image>
+
     );
   }
 }
@@ -139,14 +157,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: 'yellow',
   },
   welcome: {
     fontSize: 50,
     textAlign: 'center',
     margin: 10,
     fontWeight: 'bold',
-    color: 'purple',
+    color: '#ffcc00',
     fontFamily: 'monospace',
     textShadowOffset: { width: 4, height: 4 }
   },
@@ -156,7 +173,15 @@ const styles = StyleSheet.create({
     margin: 10,
     alignItems: 'stretch',
     justifyContent: 'center',
-    backgroundColor: 'blue',
+    backgroundColor: '#ffcc00',
+  },
+  inputContainer: {
+    paddingTop: -10,
+    paddingLeft: 5,
+    paddingRight: 5,
+    borderRadius: 10,
+    margin: 5,
+    backgroundColor: 'rgba(255, 255, 255,0.1)',
   },
 
   signup: {
@@ -168,9 +193,15 @@ const styles = StyleSheet.create({
   },
   instructions: {
     textAlign: 'center',
-    color: '#333333',
+    color: 'white',
     marginBottom: 5,
     marginTop: 20,
   },
+  imgcontainer: {
+    flex: 1,
+    resizeMode: 'cover',
+    width: null,
+    height: null
+  }
 });
 
