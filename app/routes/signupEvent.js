@@ -4,7 +4,7 @@ import * as firebase from "firebase";
 import Firebase from "../firebase/Firebase";
 import { TextField } from 'react-native-material-textfield';
 import { StackNavigator, NavigationActions } from 'react-navigation';
-
+ 
 export default class signupEvent extends React.Component {
     constructor(props) {
         super(props);
@@ -19,7 +19,7 @@ export default class signupEvent extends React.Component {
         };
         this._loading();
     };
-
+ 
     _loading() {
         let userPath = "/users/" + firebase.auth().currentUser.uid + "/info";
         firebase.database().ref(userPath).once('value').then(
@@ -31,7 +31,7 @@ export default class signupEvent extends React.Component {
                 });
             });
     };
-
+ 
     static navigationOptions = {
         title: "Sign for Event",
         headerStyle: {
@@ -39,29 +39,49 @@ export default class signupEvent extends React.Component {
             elevation: null,
         },
     };
-
+ 
     async _signup() {
-        var eventPath = "/event/" + this.state.eventId + "/users/" + firebase.auth().currentUser.uid;
-        var userPath = "/users/" + firebase.auth().currentUser.uid + "/events/"+ this.state.eventId;
-        try {
-            await firebase.database().ref(eventPath).set({
-                name: this.state.username,
-                mobileNo: this.state.mobileNo,
-                email: this.state.email,
-                addInfo: this.state.addInfo,
-            }).then(
-                () => firebase.database().ref(userPath).update({
-                    eventId: this.state.eventId
-                })
-                );
-            Alert.alert("Proffer", "Sucessfully signed up!",
-                [{ text: "ok", onPress: () => this.loginMain() }])
-        }
-        catch (error) {
-            alert(error.toString())
+        if (this.checkValidEntry()) {
+            var eventPath = "/event/" + this.state.eventId + "/users/" + firebase.auth().currentUser.uid;
+            var userPath = "/users/" + firebase.auth().currentUser.uid + "/events/" + this.state.eventId;
+            try {
+                await firebase.database().ref(eventPath).set({
+                    name: this.state.username,
+                    mobileNo: this.state.mobileNo,
+                    email: this.state.email,
+                    addInfo: this.state.addInfo,
+                }).then(
+                    () => firebase.database().ref(userPath).update({
+                        eventId: this.state.eventId
+                    })
+                    );
+                Alert.alert("Proffer", "Sucessfully signed up!",
+                    [{ text: "ok", onPress: () => this.loginMain() }])
+            }
+            catch (error) {
+                alert(error.toString())
+            }
         }
     }
-
+ 
+    checkValidEntry = () => {
+        // Checks all the text fields and ensures that their inputs are valid
+        // Test mobile number within 8... to 9...
+        let result = Number.isInteger(this.state.mobileNo) && this.state.mobileNo >= 80000000 && this.state.mobileNo <=99999999;
+        if(!result) {
+            Alert.alert("Error","Please enter a valid mobile number.");
+            return false;
+        }
+        // Test preferred email to ensure that it is either blank or valid email form
+        result = this.state.email === "" || /[^\s@]+@[^\s@]+\.[^\s@]+/.test(this.state.email);
+        if(!result) {
+            Alert.alert("Error","Please enter a valid preferred email or leave it blank to use your NUS email.");
+            return false;
+        }
+        // Return true if all conditions pass
+        return true;
+    }
+ 
     loginMain() {
         return this.props
             .navigation
@@ -73,7 +93,7 @@ export default class signupEvent extends React.Component {
                     ]
                 }));
     }
-
+ 
     render() {
         return (
             <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
@@ -114,24 +134,24 @@ export default class signupEvent extends React.Component {
                     </KeyboardAvoidingView>
                 </View>
             </ScrollView>
-
+ 
         )
     };
 }
-
+ 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: 'white',
         justifyContent: 'center',
         height: '100%',
-
+ 
     },
     name: {
         fontSize: 20,
         textAlign: 'left',
     },
-
+ 
     addInfo: {
         fontSize: 15,
         fontFamily: 'Roboto',

@@ -1,18 +1,21 @@
 import React, { Component } from 'react';
 import {
-    AppRegistry,
     StyleSheet,
     Text,
     View,
     Image,
     TextInput,
     Button,
-    Alert
+    Alert,
+    TouchableWithoutFeedback,
 } from 'react-native';
 import TextBox from '../components/TextBox';
 import { TextField } from 'react-native-material-textfield';
 import { StackNavigator } from 'react-navigation';
 import * as firebase from "firebase";
+import ImageHandler from '../components/ProfilePicture/ImageHandler';
+
+const userDefaultImage = require('../images/blankprofilepicture.png');
 
 export default class registerscreen extends Component {
     constructor(props) {
@@ -21,23 +24,22 @@ export default class registerscreen extends Component {
             email: this.props.navigation.state.params.email,
             password: this.props.navigation.state.params.password,
             name: "",
+            imgSrc: userDefaultImage,
         }
     }
 
     static navigationOptions = {
         title: 'Registration',
-        headerStyle: {
-            backgroundColor: '#95A5A6',
-            elevation: null,
-        },
-    };
+        headerStyle: { backgroundColor: '#000568' },
+        headerTitleStyle: { color: "#ffcc00" },
+    }
 
     async signup(email, pass) {
         //Remove false to allow NUS email only
         if (email.search("@u.nus.edu") == -1 && false) {
             Alert.alert("Proffer", "Please enter a valid nus email.");
             this.setState({ email: "" });
-        } else {
+        } else if (this.checkValidEntry()) {
             try {
                 await firebase.auth().createUserWithEmailAndPassword(email, pass);
                 firebase.auth().currentUser.sendEmailVerification();
@@ -49,21 +51,45 @@ export default class registerscreen extends Component {
 
 
             } catch (error) {
-                alert(error.toString())
+                Alert.alert("Proffer", error.toString())
             }
         }
-
     }
 
+    checkValidEntry = () => {
+        if (!/^[a-zA-Z\s]*$/.test(this.state.name) && this.state.name.length != 0) {
+            Alert.alert("Proffer", "Please enter a valid name.");
+            return false;
+        } else if (!/[^\s@]+@[^\s@]+\.[^\s@]+/.test(this.state.email)) {
+            Alert.alert("Proffer", "Please enter a valid nus email.");
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    getImg = () => {
+        ImageHandler.getImg()
+        .then((uri) => {
+            this.setState({imgSrc:{uri}});
+            alert(uri);
+            ImageHandler.uploadImage(uri)
+        })
+    }
 
     render() {
         return (
             <View style={styles.container}>
                 <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                    <Image
-                        style={{ width: 100, height: 100 }}
-                        source={require('../images/handshake.png')}
-                    />
+                    <TouchableWithoutFeedback
+                        style={{ width: 150, height: 150, borderRadius: 75 }}
+                        onPress={this.getImg}
+                    >
+                        <Image
+                            style={{ width: 150, height: 150, borderRadius: 75 }}
+                            source={this.state.imgSrc}
+                        />
+                    </TouchableWithoutFeedback>
                 </View>
                 <TextField
                     label='Name'
@@ -129,5 +155,3 @@ const styles = StyleSheet.create({
         marginBottom: 5,
     },
 });
-
-AppRegistry.registerComponent('proffer', () => registerscreen);

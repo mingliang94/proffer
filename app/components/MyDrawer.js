@@ -8,7 +8,8 @@ import {
     TextInput,
     DrawerLayoutAndroid,
     ToolbarAndroid,
-    TouchableHighlight
+    TouchableHighlight,
+    Image
 } from 'react-native';
 import { StackNavigator, NavigationActions } from 'react-navigation';
 
@@ -21,12 +22,17 @@ export default class MyDrawer extends Component {
     };
 
     render() {
-        this.state.name = this.props.name
+        this.state.name = this.props.name;
+        var profileImage = require("../images/blankprofilepicture.png");
         if (this.props.admin) {
             return (
                 <View style={{ flex: 1, backgroundColor: '#ffcc00' }}>
-                    <View>
-                        <Text style={styles.welcome}>Welcome {this.state.name}!</Text>
+                    <View style={styles.welcomeBox}>
+                        <Image style={styles.profileImg} source={profileImage} />
+                        <View>
+                            <Text style={styles.welcome}>Welcome {this.state.name}!</Text>
+                            <Text style={styles.textNUS}> National University of {'\n'}Singapore</Text>
+                        </View>
                     </View>
                     <TouchableHighlight onPress={() => this.props.AddEvent()} underlayColor='#4d2600' activeOpacity={0.9}>
                         <View style={styles.optionsBox}>
@@ -54,20 +60,25 @@ export default class MyDrawer extends Component {
         else {
             return (
                 <View style={{ flex: 1, backgroundColor: '#ffcc00' }}>
-                    <View>
-                        <Text style={styles.welcome}>Welcome {this.state.name}!</Text>
+                    <View style={styles.welcomeBox}>
+                        <Image style={styles.profileImg} source={profileImage} />
+                        <View>
+                            <Text style={styles.welcome}>Welcome {this.state.name}!</Text>
+                            <Text style={styles.textNUS}> National University of {'\n'}Singapore</Text>
+                        </View>
                     </View>
-                    <TouchableHighlight onPress={() => this.props.UserEvent()} underlayColor='#4d2600' activeOpacity={0.9}>
+
+                    <TouchableHighlight onPress={() => this.props.UserEvent()} underlayColor='#4d3d00' activeOpacity={0.9}>
                         <View style={styles.optionsBox}>
                             <Text style={styles.options}>View Event Joined</Text>
                         </View>
                     </TouchableHighlight>
-                    <TouchableHighlight onPress={() => this.props.profile()} underlayColor='#4d2600' activeOpacity={0.9}>
+                    <TouchableHighlight onPress={() => this.props.profile()} underlayColor='#4d3d00' activeOpacity={0.9}>
                         <View style={styles.optionsBox}>
                             <Text style={styles.options}>Edit Profile</Text>
                         </View>
                     </TouchableHighlight>
-                    <TouchableHighlight onPress={() => this.props._logout()} underlayColor='#4d2600' activeOpacity={0.9}>
+                    <TouchableHighlight onPress={() => this.props._logout()} underlayColor='#4d3d00' activeOpacity={0.9}>
                         <View style={styles.optionsBox}>
                             <Text style={styles.options}>Logout</Text>
                         </View>
@@ -79,9 +90,27 @@ export default class MyDrawer extends Component {
 }
 
 const styles = StyleSheet.create({
+    welcomeBox: {
+        height: 100,
+        flexDirection: 'row',
+        marginBottom: 10,
+        backgroundColor: '#e6b800'
+    },
+    profileImg: {
+        width: 80,
+        height: 80,
+        borderRadius: 80,
+        marginTop: 10,
+        marginBottom: 10,
+        marginRight: 5,
+        marginLeft: 10,
+    },
+    textNUS: {
+        fontStyle: 'italic',
+        fontSize: 15
+    },
     optionsBox: {
     },
-
     welcome: {
         fontSize: 20,
         textAlign: 'center',

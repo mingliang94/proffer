@@ -201,7 +201,7 @@ export default class MainActivity extends Component {
               backgroundColor: '#ffcc00',
               height: 56,
             }}
-            title="Proffer"
+            title="Events"
             actions={toolbarActions}
             onActionSelected={this._onActionSelected}
           />
